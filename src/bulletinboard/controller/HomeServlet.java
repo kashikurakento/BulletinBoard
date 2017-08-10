@@ -2,7 +2,6 @@ package bulletinboard.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,30 +44,26 @@ public class HomeServlet extends HttpServlet {
 
 		String startDate = "2017-07-31";
 
-		List<UserMessage> allMessages = new MessageService().getMessage(startDate, endDate, category);
-		session.setAttribute("allMessages", allMessages);
-		List<String> categories =  new ArrayList<String>();
-		for(int i = 0; i < allMessages.size(); i++){
-			if(!categories.contains(allMessages.get(i).getCategory())){
-				categories.add(allMessages.get(i).getCategory());
-			}
-		}
+		List<UserMessage> categories = new MessageService().getMessageCategory();
 		session.setAttribute("categories", categories);
 
 		if(StringUtils.isBlank(request.getParameter("startDate")) == false){
 			startDate = request.getParameter("startDate");
+			request.setAttribute("selectStart", startDate);
 		}
 		if(StringUtils.isBlank(request.getParameter("endDate")) == false){
 			endDate = request.getParameter("endDate");
+			request.setAttribute("selectEnd", endDate);
 		}
-		if(request.getParameter("category") != null){
+		if(StringUtils.isBlank(request.getParameter("category")) == false){
 			category = request.getParameter("category");
+			request.setAttribute("selectCategory", category);
+			System.out.println(request.getParameter("category"));
 		}
 
 
 		List<UserMessage> messages = new MessageService().getMessage(startDate, endDate, category);
 		request.setAttribute("messages", messages);
-		System.out.println(messages.get(0).getText());
 
 		List<UserComment> comments = new CommentService().getComment();
 		request.setAttribute("comments", comments);
@@ -81,8 +76,6 @@ public class HomeServlet extends HttpServlet {
 
 		List<Position> positions = new PositionService().getPosition();
 		request.setAttribute("positions", positions);
-
-		System.out.println(request.getParameter("category"));
 
 		request.getRequestDispatcher("home.jsp").forward(request, response);
 

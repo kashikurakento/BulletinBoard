@@ -69,13 +69,12 @@ function disabledButton(btn){
 		<c:remove var="errorMessages" scope="session" />
 	</c:if>
 
-	<div class="form area"></div>
-	<form action="./">
+	<form action="./" style="display: inline">
 		カテゴリー指定
 		<SELECT name="category">
-			<option value="" selected>カテゴリー選択</option>
+			<option value="" selected>カテゴリーを選択</option>
 			<c:forEach items="${categories}" var="category">
-				<option  value="${category}"><c:out value="${category}"></c:out></option>
+				<option  value="${category.category}"><c:out value="${category.category}"></c:out></option>
 			</c:forEach>
 		</SELECT>
 		日付指定
@@ -83,13 +82,16 @@ function disabledButton(btn){
 		<input type="date" name="endDate" min="2017-08-01" max="${date }" />
 		<button type="submit">絞込み</button>
 	</form>
+	<form action="./" style="display: inline"><button type="submit">全件表示</button></form><br />
 
+	<c:forEach items="${categories}" var="category">
+			<c:if test="${ selectCategory == category.category}"><c:out value="「${selectCategory }」で絞り込んだ結果"></c:out></c:if>
+	</c:forEach>
+	<c:if test="${ fn:length(messages) != 0 && fn:length(messages) != fn:length(allMessages)}"><c:out value=" ${ fn:length(messages)}件 の投稿が見つかりました" /></c:if>
 	<c:if test="${ fn:length(messages) == 0 }">条件に当てはまる投稿が見つかりませんでした</c:if>
-	<c:if test="${ fn:length(messages) != 0 && fn:length(messages) != fn:length(allMessages)}"><c:out value="全件中 ${ fn:length(messages)}件 の投稿が見つかりました" /></c:if>
-	<c:if test="${ fn:length(messages) == fn:length(allMessages) }"><c:out value="全件表示されています" /></c:if>
-	<br /><br />
 
-
+	<br />
+	<br />
 	<div class="messages">
 		<c:forEach items="${messages}" var="message">
 			<div class="message">

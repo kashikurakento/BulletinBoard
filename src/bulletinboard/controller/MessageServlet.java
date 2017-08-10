@@ -40,16 +40,25 @@ public class MessageServlet extends HttpServlet {
 
 		Message message = new Message();
 		message.setTitle(request.getParameter("title"));
-		message.setCategory(request.getParameter("category"));
+		if(StringUtils.isBlank(request.getParameter("category")) == false){
+			message.setCategory(request.getParameter("category"));
+		}
 		message.setText(request.getParameter("text"));
 		message.setBranchId(user.getBranchId());
 		message.setPositionId(user.getPositionId());
 		message.setUserId(user.getId());
-
 		if (isValid(request, messages) == true) {
+			if(StringUtils.isBlank(request.getParameter("selectCategory")) == false){
+				message.setCategory(request.getParameter("selectCategory"));
+			}
 			new MessageService().register(message);
 			response.sendRedirect("./");
 		} else {
+
+			if(StringUtils.isBlank(request.getParameter("selectCategory")) == false){
+				request.setAttribute("selectCategory", request.getParameter("selectCategory"));
+			}
+
 			session.setAttribute("errorMessages", messages);
 			request.setAttribute("message", message);
 

@@ -16,7 +16,7 @@ function disabledButton(btn){
 <title>新規投稿</title>
 </head>
 <body>
-	<h2>新規投稿</h2><br /><br /><br />
+	<h2>新規投稿</h2>
 	<c:if test="${ not empty errorMessages }">
 		<div class="errorMessages">
 			<ul>
@@ -33,14 +33,19 @@ function disabledButton(btn){
 		<label for="title" >件名</label>
 		<input name="title" value="${message.title }" maxlength='30'/><br />
 
-		<label for="category">カテゴリー</label>
-		<input name="category" value="${message.category }" maxlength='10'/><br />
+		<label for="category">カテゴリーを入力または選択</label><br />
+		<input name="category" value="${message.category }" maxlength='10' placeholder="カテゴリーを入力"/><br />
 
-		<label for="category">既存のカテゴリーから選択</label>
+		<label for="selectCategory"></label>
 		<SELECT name="selectCategory">
-			<option value="" selected>カテゴリー選択</option>
+			<option value="" selected>カテゴリーを選択</option>
 			<c:forEach items="${categories}" var="category">
-				<option  value="${category}"><c:out value="${category}"></c:out></option>
+				<c:if test="${selectCategory == category.category }">
+					<option  value="${category.category}" selected><c:out value="${category.category}"></c:out></option>
+				</c:if>
+				<c:if test="${selectCategory != category.category }">
+					<option  value="${category.category}" ><c:out value="${category.category}"></c:out></option>
+				</c:if>
 			</c:forEach>
 		</SELECT><br />
 

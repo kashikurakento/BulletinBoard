@@ -35,12 +35,6 @@ public class UserMessageDao {
 			if(StringUtils.isBlank(category) == false){
 				ps.setString(3, category);
 			}
-			System.out.println(ps);
-
-
-
-
-
 
 			ResultSet rs = ps.executeQuery();
 			List<UserMessage> ret = toUserMessageList(rs);
@@ -78,6 +72,46 @@ public class UserMessageDao {
 				message.setUserId(userId);
 				message.setName(name);
 				message.setInsertDate(insertDate);
+
+				ret.add(message);
+			}
+			return ret;
+		} finally {
+			close(rs);
+		}
+	}
+
+	public List<UserMessage> getUserMessagesCategory(Connection connection) {
+
+		PreparedStatement ps = null;
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT DISTINCT category FROM users_messages ");
+
+			ps = connection.prepareStatement(sql.toString());
+
+			ResultSet rs = ps.executeQuery();
+			List<UserMessage> ret = toUserMessagesCategoryList(rs);
+			return ret;
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
+	private List<UserMessage> toUserMessagesCategoryList(ResultSet rs)
+			throws SQLException {
+
+		List<UserMessage> ret = new ArrayList<UserMessage>();
+		try {
+			while (rs.next()) {
+
+				String category = rs.getString("category");
+
+				UserMessage message = new UserMessage();
+
+				message.setCategory(category);
 
 				ret.add(message);
 			}
