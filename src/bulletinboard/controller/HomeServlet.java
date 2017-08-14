@@ -1,6 +1,7 @@
 package bulletinboard.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -36,29 +37,42 @@ public class HomeServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		String category = null;
+		String startDate = "2017-07-31";
 
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String endDate = (sdf.format(date)).toString();
 		request.setAttribute("date", endDate);
 
-		String startDate = "2017-07-31";
+		List<UserMessage> allMessages = new MessageService().getMessage(startDate, endDate, category);
+		request.setAttribute("allMessages", allMessages);
 
 		List<UserMessage> categories = new MessageService().getMessageCategory();
 		session.setAttribute("categories", categories);
 
+
 		if(StringUtils.isBlank(request.getParameter("startDate")) == false){
 			startDate = request.getParameter("startDate");
-			request.setAttribute("selectStart", startDate);
+			try {
+				Date formatDate = sdf.parse(startDate);
+				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy年MM月dd日");
+				request.setAttribute("selectStart", (sdf2.format(formatDate)).toString());
+			} catch (ParseException e) {
+			}
+
 		}
 		if(StringUtils.isBlank(request.getParameter("endDate")) == false){
 			endDate = request.getParameter("endDate");
-			request.setAttribute("selectEnd", endDate);
+			try {
+				Date formatDate = sdf.parse(endDate);
+				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy年MM月dd日");
+				request.setAttribute("selectEnd", (sdf2.format(formatDate)).toString());
+			} catch (ParseException e) {
+			}
 		}
 		if(StringUtils.isBlank(request.getParameter("category")) == false){
 			category = request.getParameter("category");
 			request.setAttribute("selectCategory", category);
-			System.out.println(request.getParameter("category"));
 		}
 
 

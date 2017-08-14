@@ -43,7 +43,7 @@ function working(){
 
 			<c:forEach items="${users}" var="user">
 				<tr>
-					<td><c:if test="${user.isWorking == 0}">【停止中】</c:if><c:out value="${user.name }" /></td>
+					<td  width="250"><c:if test="${user.isWorking == 0}"><div style="color:red;display:inline;">【停止中】</div></c:if><c:out value="${user.name }" /></td>
 
 					<td><c:out value="${user.loginId }" /></td>
 
@@ -68,15 +68,15 @@ function working(){
 
 					<td>
 					<div align="center">
-						<form action="is_working" method="post" onClick="return stopped()" style="display: inline">
+						<form  action="is_working" method="post" onClick="return stopped()" style="display: inline">
 							<c:if test="${user.isWorking == 1 }">
-								<button type="submit" name="isWorking" value="0">停止</button>
+								<button style="color:red" type="submit" name="isWorking" value="0">停止</button>
 								<input type="hidden" name="id" value="${user.id}">
 							</c:if>
 						</form>
-						<form action="is_working" method="post" onClick="return working()" style="display: inline">
+						<form  action="is_working" method="post" onClick="return working()" style="display: inline">
 							<c:if test="${user.isWorking == 0 }">
-								<button type="submit" name="isWorking" value="1">復活</button>
+								<button style="color:blue" type="submit" name="isWorking" value="1">復活</button>
 								<input type="hidden" name="id" value="${user.id}">
 							</c:if>
 						</form>

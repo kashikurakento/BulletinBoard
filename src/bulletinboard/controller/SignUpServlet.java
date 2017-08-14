@@ -61,7 +61,7 @@ public class SignUpServlet extends HttpServlet {
 
 			new UserService().register(user);
 
-			response.sendRedirect("./");
+			response.sendRedirect("manage");
 		} else {
 			session.setAttribute("errorMessages", messages);
 			request.setAttribute("user", user);

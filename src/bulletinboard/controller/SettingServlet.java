@@ -96,7 +96,12 @@ public class SettingServlet extends HttpServlet {
 		User editUser = (User) session.getAttribute("editUser");
 
 		editUser.setLoginId(request.getParameter("loginId"));
-		editUser.setPassword(request.getParameter("password"));
+
+		String password =request.getParameter("password");
+		if (password.matches("^[0-9a-zA-Z]+$") && 6 <= password.length() && password.length() <= 20) {
+			editUser.setPassword(password);
+		}
+
 		editUser.setName(request.getParameter("name"));
 		editUser.setBranchId(Integer.parseInt(request.getParameter("branch")));
 		editUser.setPositionId(Integer.parseInt(request.getParameter("position")));
@@ -125,22 +130,17 @@ public class SettingServlet extends HttpServlet {
 				messages.add("ログインIDは半角英数字6文字以上20文字以下で入力してください");
 			}
 		}
-		if (StringUtils.isBlank(password) == true) {
-			messages.add("パスワードを入力してください");
-		}
 		if(StringUtils.isBlank(password) == false){
 			if(!password.matches("^[0-9a-zA-Z]+$") || 6 > password.length()  || password.length() > 20){
 				messages.add("パスワードは半角英数字6文字以上20文字以下で入力してください");
 			}
 		}
-		if (StringUtils.isBlank(checkPassword) == true) {
-			messages.add("パスワード（再入力）を入力してください");
-		}
-		if(password.matches("^[0-9a-zA-Z]+$") && 6 < password.length() && password.length() < 20){
-			if(StringUtils.isBlank(password) == false && StringUtils.isBlank(checkPassword) == false){
-				if(!password.equals(checkPassword)){
-					messages.add("再入力したパスワードが間違っています");
-				}
+//		if (StringUtils.isBlank(checkPassword) == true) {
+//			messages.add("パスワード（再入力）を入力してください");
+//		}
+		if(password.matches("^[0-9a-zA-Z]+$") && 6 <= password.length() && password.length() <= 20){
+			if(!password.equals(checkPassword)){
+				messages.add("再入力したパスワードが間違っています");
 			}
 		}
 		if (StringUtils.isBlank(name) == true) {

@@ -12,13 +12,16 @@ function disabledButton(btn){
 	btn.disabled=true;
 	btn.form.submit();
 }
+function CountDownLength( idn, str, mnum ) {
+	   document.getElementById(idn).innerHTML = "残り" + (mnum - str.length) + "文字";
+	}
 </script>
 <title>新規投稿</title>
 </head>
 <body>
 	<h2>新規投稿</h2>
 	<c:if test="${ not empty errorMessages }">
-		<div class="errorMessages">
+		<div style="color:red" class="errorMessages">
 			<ul>
 				<c:forEach items="${errorMessages}" var="message">
 					<li><c:out value="${message}" />
@@ -30,11 +33,11 @@ function disabledButton(btn){
 
 	<form action="message" method="post">
 
-		<label for="title" >件名</label>
-		<input name="title" value="${message.title }" maxlength='30'/><br />
+		<label for="title" ><b>件名</b></label><br />
+		<input name="title" value="${message.title }" maxlength='30'/><h5 style="display: inline">（30文字以内で入力してください）</h5><br />
 
-		<label for="category">カテゴリーを入力または選択</label><br />
-		<input name="category" value="${message.category }" maxlength='10' placeholder="カテゴリーを入力"/><br />
+		<label for="category"><b>カテゴリーを入力または選択</b></label><br />
+		<input name="category" value="${message.category }" maxlength='10' placeholder="カテゴリーを入力"/><h5 style="display: inline">（10文字以内で入力してください）</h5><br />
 
 		<label for="selectCategory"></label>
 		<SELECT name="selectCategory">
@@ -49,10 +52,9 @@ function disabledButton(btn){
 			</c:forEach>
 		</SELECT><br />
 
-		<label for="text">本文</label><br />
-		<textarea name="text" rows="7" cols="100" class="tweet-box" maxlength="1000">${message.text }</textarea><br />
-		<input type="submit" value="投稿する" onClick="disabledButton(this)">(1000文字まで)<br /><br /><br />
-
+		<label for="text"><b>本文</b></label><h5 style="display: inline">（1000文字以内で入力してください）</h5><br />
+		<textarea style="resize:none" name="text" rows="7" cols="100" class="tweet-box" maxlength="1000" onkeyup="CountDownLength( 'cdlength' , value , 1000 );">${message.text }</textarea><br />
+		<input type="submit" value="投稿する" onClick="disabledButton(this)"><div id="cdlength" style="display: inline">残り1000文字</div><br /><br /><br />
 	</form>
 
 	<div class="header">

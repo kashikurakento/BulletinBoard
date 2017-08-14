@@ -12,7 +12,7 @@
 	<h2><c:out value="ユーザー編集" /></h2>
 	<div class="main-contents">
 		<c:if test="${ not empty errorMessages }">
-			<div class="errorMessages">
+			<div style="color:red" class="errorMessages">
 				<ul>
 					<c:forEach items="${errorMessages}" var="message">
 						<li><c:out value="${message}" />

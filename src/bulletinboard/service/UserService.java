@@ -18,9 +18,8 @@ public class UserService {
 		try {
 			connection = getConnection();
 
-			String encPassword = CipherUtil.encrypt(user.getPassword());
-			user.setPassword(encPassword);
-
+				String encPassword = CipherUtil.encrypt(user.getPassword());
+				user.setPassword(encPassword);
 
 			UserDao userDao = new UserDao();
 			userDao.insert(connection, user);
@@ -43,8 +42,10 @@ public class UserService {
 		try {
 			connection = getConnection();
 
-			String encPassword = CipherUtil.encrypt(user.getPassword());
-			user.setPassword(encPassword);
+			if(user.getPassword().length() < 20){
+				String encPassword = CipherUtil.encrypt(user.getPassword());
+				user.setPassword(encPassword);
+			}
 
 			UserDao userDao = new UserDao();
 			userDao.update(connection, user);

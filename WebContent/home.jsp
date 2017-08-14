@@ -31,6 +31,10 @@ function disabledButton(btn){
 	btn.disabled=true;
 	btn.form.submit();
 }
+function CountDownLength( idn, str, mnum ) {
+	   document.getElementById(idn).innerHTML = "残り" + (mnum - str.length) + "文字";
+	}
+
 </script>
 <title>ホーム</title>
 </head>
@@ -42,9 +46,9 @@ function disabledButton(btn){
 			<c:if test="${loginUser.positionId == 1 }">
 				<a href="manage">ユーザー管理</a>
 			</c:if>
-			<form method="POST" onClick="return check()" style="display: inline">
-				<a href="logout">ログアウト</a>
-			</form>
+				<form method="POST" onClick="return check()" style="display: inline">
+					<a href="logout" style="float:right;">ログアウト</a>
+				</form>
 		</div>
 
 		<div class="profile">
@@ -59,10 +63,10 @@ function disabledButton(btn){
 	</div>
 
 	<c:if test="${ not empty errorMessages }">
-		<div class="errorMessages">
+		<div style="color:red" class="errorMessages">
 			<ul>
 				<c:forEach items="${errorMessages}" var="message">
-					<li><c:out value="${message}" />
+					<li><c:out  value="${message}" />
 				</c:forEach>
 			</ul>
 		</div>
@@ -78,17 +82,33 @@ function disabledButton(btn){
 			</c:forEach>
 		</SELECT>
 		日付指定
-		<input type="date" name="startDate" min="2017-08-01" max="${date }" /> －
-		<input type="date" name="endDate" min="2017-08-01" max="${date }" />
+		<input type="date" name="startDate" min="2017-08-01" max="${date }" /> から
+		<input type="date" name="endDate" min="2017-08-01" max="${date }" />まで
 		<button type="submit">絞込み</button>
 	</form>
 	<form action="./" style="display: inline"><button type="submit">全件表示</button></form><br />
 
+
+
 	<c:forEach items="${categories}" var="category">
-			<c:if test="${ selectCategory == category.category}"><c:out value="「${selectCategory }」で絞り込んだ結果"></c:out></c:if>
+			<c:if test="${ selectCategory == category.category}"><c:out value="カテゴリー「${selectCategory }」"></c:out></c:if>
 	</c:forEach>
-	<c:if test="${ fn:length(messages) != 0 && fn:length(messages) != fn:length(allMessages)}"><c:out value=" ${ fn:length(messages)}件 の投稿が見つかりました" /></c:if>
+	<c:if test="${ selectStart != null && selectEnd != null && selectCategory != null}"><br /></c:if>
+	<c:if test="${ selectStart != null || selectEnd != null}">日付「</c:if>
+	<c:if test="${ selectStart != null}"><c:out value="${selectStart }から"></c:out></c:if>
+	<c:if test="${ selectEnd != null}"><c:out value="${selectEnd }まで"></c:out></c:if>
+	<c:if test="${ selectStart != null || selectEnd != null}">」</c:if>
+
+	<c:if test="${ selectStart != null || selectEnd != null || selectCategory != null}">の条件で絞り込んだ結果</c:if>
+
+
+	<c:if test="${ fn:length(messages) != 0 && fn:length(messages) != fn:length(allMessages)}"><c:out value=" 全件中 ${ fn:length(messages)}件 の投稿が見つかりました" /></c:if>
+	<c:if test="${ fn:length(messages) == fn:length(allMessages)}">
+		<c:if test="${ selectStart != null || selectEnd != null || selectCategory != null}"><c:out value="全件 の投稿が見つかりました" /></c:if>
+	</c:if>
+	<c:if test="${ fn:length(messages) == fn:length(allMessages) && selectStart == null && selectEnd == null && selectCategory == null}"><c:out value="全件表示しています" /></c:if>
 	<c:if test="${ fn:length(messages) == 0 }">条件に当てはまる投稿が見つかりませんでした</c:if>
+
 
 	<br />
 	<br />
@@ -98,12 +118,15 @@ function disabledButton(btn){
 					【件名】：<span class="title"><c:out value="${message.title}" /></span><br />
 					【カテゴリー】：<span class="category"><c:out value="${message.category}" /></span><br />
 					【本文】<br />
-					<span class="text">
-					<c:forEach var="text" items="${fn:split(message.text, '
-					')}" >
-					<c:out value="${text}" /><br />
-					</c:forEach>
-					</span><br /><br />
+					<div style="width: 100%;word-break:break-all;">
+						<p>
+							<c:forEach var="text" items="${fn:split(message.text, '
+							')}" >
+								<c:out value="${text}" /><br />
+							</c:forEach>
+						</p>
+					</div>
+					<br /><br />
 					投稿者：<span class="name"><c:out value="${message.name}" /></span>
 
 					<c:forEach items="${branches}" var="branch">
@@ -137,18 +160,23 @@ function disabledButton(btn){
 
 
 			<form action="comment" method="post">
-				<textarea name="comment" rows="3" cols="100" class="tweet-box"></textarea>
-				<br /> <input type="submit" value="コメント" onClick="disabledButton(this)">(500文字まで)<br />
+				<textarea name="comment" style="width:60%;height:90px;resize:none" maxlength='500' onkeyup="CountDownLength( 'cdlength' , value , 500 );" ></textarea><br />
+				<input type="submit" value="コメント" onClick="disabledButton(this)">
+				<div id="cdlength" style="display: inline" >残り500文字</div><br />
 				<input type="hidden" name="messageId" value='${message.id}'><br />
 			</form>
 
 			<c:forEach items="${comments}" var="comment">
 				<c:if test="${ comment.messageId == message.id }">
 					コメント<br>
-					<c:forEach var="text" items="${fn:split(comment.text, '
-					')}" >
-					<c:out value="${text}" /><br />
-					</c:forEach>
+					<div style="width: 100%;word-break:break-all;">
+						<p>
+							<c:forEach var="text" items="${fn:split(comment.text, '
+							')}" >
+								<c:out value="${text}" /><br />
+							</c:forEach>
+						</p>
+					</div>
 					投稿者：<c:out value="${comment.name}" />
 
 					<c:forEach items="${branches}" var="branch">
