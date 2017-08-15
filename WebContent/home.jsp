@@ -14,7 +14,6 @@ function check(){
 		return true; // 「OK」時は送信を実行
 	}
 	else{ // 「キャンセル」時の処理
-		window.alert('キャンセルされました'); // 警告ダイアログを表示
 		return false; // 送信を中止
 	}
 }
@@ -23,7 +22,6 @@ function Delete(){
 		return true; // 「OK」時は送信を実行
 	}
 	else{ // 「キャンセル」時の処理
-		window.alert('キャンセルされました'); // 警告ダイアログを表示
 		return false; // 送信を中止
 	}
 }
@@ -75,7 +73,7 @@ function CountDownLength( idn, str, mnum ) {
 
 	<form action="./" style="display: inline">
 		カテゴリー指定
-		<SELECT name="category">
+		<SELECT name="category" >
 			<option value="" selected>カテゴリーを選択</option>
 			<c:forEach items="${categories}" var="category">
 				<option  value="${category.category}"><c:out value="${category.category}"></c:out></option>
@@ -115,7 +113,7 @@ function CountDownLength( idn, str, mnum ) {
 	<div class="messages">
 		<c:forEach items="${messages}" var="message">
 			<div class="message">
-					【件名】：<span class="title"><c:out value="${message.title}" /></span><br />
+					【件名】：<span class="title"><c:out value="${message.title}" /></span>
 					【カテゴリー】：<span class="category"><c:out value="${message.category}" /></span><br />
 					【本文】<br />
 					<div style="width: 100%;word-break:break-all;">
@@ -127,19 +125,61 @@ function CountDownLength( idn, str, mnum ) {
 						</p>
 					</div>
 					<br /><br />
-					投稿者：<span class="name"><c:out value="${message.name}" /></span>
+					投稿者：<span class="name"><c:out value="「${message.name}」" /></span><br />
 
+					所属：投稿時（現在）「
 					<c:forEach items="${branches}" var="branch">
 						<c:if test="${message.branchId == branch.id}">
-							<c:out value="(${branch.name }" />
+							<c:out value="${branch.name }" />
 						</c:if>
 					</c:forEach>
 
 					<c:forEach items="${positions}" var="position">
 						<c:if test="${message.positionId == position.id}">
-							<c:out value="${position.name })" />
+							<c:out value="${position.name }" />
 						</c:if>
 					</c:forEach>
+
+					(
+					<c:forEach items="${users}" var="user">
+						<c:if test="${message.userId == user.id }">
+							<c:forEach items="${branches}" var="branch">
+								<c:if test="${user.branchId == branch.id}">
+									<c:if test="${user.branchId != message.branchId}">
+										<c:out value="${branch.name }" />
+									</c:if>
+									<c:if test="${user.branchId == message.branchId && user.positionId != message.positionId}">
+										<c:out value="${branch.name }" />
+									</c:if>
+								</c:if>
+							</c:forEach>
+						</c:if>
+
+
+						<c:if test="${message.userId == user.id }">
+							<c:forEach items="${positions}" var="position">
+								<c:if test="${user.positionId == position.id}">
+									<c:if test="${user.positionId != message.positionId}">
+										<c:out value="${position.name }" />
+									</c:if>
+									<c:if test="${user.positionId == message.positionId && user.branchId != message.branchId}">
+										<c:out value="${position.name }" />
+									</c:if>
+								</c:if>
+							</c:forEach>
+						</c:if>
+
+
+
+						<c:if test="${message.userId == user.id }">
+							<c:if test="${user.branchId == message.branchId && user.positionId == message.positionId}">
+								<c:out value="同様" />
+							</c:if>
+						</c:if>
+					</c:forEach>
+					)」
+
+
 
 				<fmt:formatDate value="${message.insertDate}" pattern="yyyy/MM/dd HH:mm:ss" />
 				<form action="messageDelete" onClick="return Delete()" style="display: inline" method="post">
@@ -168,7 +208,7 @@ function CountDownLength( idn, str, mnum ) {
 
 			<c:forEach items="${comments}" var="comment">
 				<c:if test="${ comment.messageId == message.id }">
-					コメント<br>
+					<br />コメント<br>
 					<div style="width: 100%;word-break:break-all;">
 						<p>
 							<c:forEach var="text" items="${fn:split(comment.text, '
@@ -177,19 +217,60 @@ function CountDownLength( idn, str, mnum ) {
 							</c:forEach>
 						</p>
 					</div>
-					投稿者：<c:out value="${comment.name}" />
+					投稿者：<c:out value="${comment.name}" /><br />
 
+										所属：投稿時（現在）「
 					<c:forEach items="${branches}" var="branch">
 						<c:if test="${comment.branchId == branch.id}">
-							<c:out value="(${branch.name }" />
+							<c:out value="${branch.name }" />
 						</c:if>
 					</c:forEach>
 
 					<c:forEach items="${positions}" var="position">
 						<c:if test="${comment.positionId == position.id}">
-							<c:out value="${position.name })" />
+							<c:out value="${position.name }" />
 						</c:if>
 					</c:forEach>
+
+					(
+					<c:forEach items="${users}" var="user">
+						<c:if test="${comment.userId == user.id }">
+							<c:forEach items="${branches}" var="branch">
+								<c:if test="${user.branchId == branch.id}">
+									<c:if test="${user.branchId != comment.branchId}">
+										<c:out value="${branch.name }" />
+									</c:if>
+									<c:if test="${user.branchId == comment.branchId && user.positionId != comment.positionId}">
+										<c:out value="${branch.name }" />
+									</c:if>
+								</c:if>
+							</c:forEach>
+						</c:if>
+
+
+						<c:if test="${comment.userId == user.id }">
+							<c:forEach items="${positions}" var="position">
+								<c:if test="${user.positionId == position.id}">
+									<c:if test="${user.positionId != comment.positionId}">
+										<c:out value="${position.name }" />
+									</c:if>
+									<c:if test="${user.positionId == comment.positionId && user.branchId != comment.branchId}">
+										<c:out value="${position.name }" />
+									</c:if>
+								</c:if>
+							</c:forEach>
+						</c:if>
+
+
+
+						<c:if test="${comment.userId == user.id }">
+							<c:if test="${user.branchId == comment.branchId && user.positionId == comment.positionId}">
+								<c:out value="同様" />
+							</c:if>
+						</c:if>
+					</c:forEach>
+					)」
+
 					<fmt:formatDate value="${comment.insertDate}" pattern="yyyy/MM/dd HH:mm:ss" />
 
  					<form action="commentDelete" onClick="return Delete()" style="display: inline" method="post">

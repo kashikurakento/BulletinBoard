@@ -27,7 +27,7 @@ public class LoginFilter implements Filter {
 				return;
 			}
 		}
-		chain.doFilter(request, response); // サーブレットを実行
+		chain.doFilter(request, response);
 	}
 
 	public void init(FilterConfig fconfig) throws ServletException {}

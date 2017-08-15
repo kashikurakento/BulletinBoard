@@ -24,6 +24,7 @@ import bulletinboard.service.BranchService;
 import bulletinboard.service.CommentService;
 import bulletinboard.service.MessageService;
 import bulletinboard.service.PositionService;
+import bulletinboard.service.UserService;
 
 @WebServlet(urlPatterns = { "/index.jsp"})
 public class HomeServlet extends HttpServlet {
@@ -81,6 +82,9 @@ public class HomeServlet extends HttpServlet {
 
 		List<UserComment> comments = new CommentService().getComment();
 		request.setAttribute("comments", comments);
+
+		List<User> users = new UserService().getUsers();
+		request.setAttribute("users", users);
 
 		User user = (User)session.getAttribute("loginUser");
 		request.setAttribute("loginUser", user);
