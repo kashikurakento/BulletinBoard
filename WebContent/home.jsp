@@ -49,6 +49,17 @@ function CountDownLength( idn, str, mnum ) {
 				</form>
 		</div>
 
+		<c:if test="${ not empty errorMessages }">
+			<div style="color:red" class="errorMessages">
+				<ul>
+					<c:forEach items="${errorMessages}" var="message">
+						<li><c:out  value="${message}" />
+					</c:forEach>
+				</ul>
+			</div>
+			<c:remove var="errorMessages" scope="session" />
+		</c:if>
+
 		<div class="profile">
 			<div class="name">
 				<c:out value="${loginUser.name }" />
@@ -60,28 +71,24 @@ function CountDownLength( idn, str, mnum ) {
 		</div>
 	</div>
 
-	<c:if test="${ not empty errorMessages }">
-		<div style="color:red" class="errorMessages">
-			<ul>
-				<c:forEach items="${errorMessages}" var="message">
-					<li><c:out  value="${message}" />
-				</c:forEach>
-			</ul>
-		</div>
-		<c:remove var="errorMessages" scope="session" />
-	</c:if>
+
 
 	<form action="./" style="display: inline">
 		カテゴリー指定
 		<SELECT name="category" >
 			<option value="" selected>カテゴリーを選択</option>
 			<c:forEach items="${categories}" var="category">
-				<option  value="${category.category}"><c:out value="${category.category}"></c:out></option>
+				<c:if test="${ selectCategory == category.category}">
+					<option  value="${category.category}" selected><c:out value="${category.category}"></c:out></option>
+				</c:if>
+				<c:if test="${ selectCategory != category.category}">
+					<option  value="${category.category}"><c:out value="${category.category}"></c:out></option>
+				</c:if>
 			</c:forEach>
 		</SELECT>
 		日付指定
-		<input type="date" name="startDate" min="2017-08-01" max="${date }" /> から
-		<input type="date" name="endDate" min="2017-08-01" max="${date }" />まで
+		<input type="date" name="startDate" min="2017-08-01" max="${date }" value="${startDate }" /> から
+		<input type="date" name="endDate" min="2017-08-01" max="${date }" value="${endDate }" />まで
 		<button type="submit">絞込み</button>
 	</form>
 	<form action="./" style="display: inline"><button type="submit">全件表示</button></form><br />
@@ -104,7 +111,6 @@ function CountDownLength( idn, str, mnum ) {
 	<c:if test="${ fn:length(messages) == fn:length(allMessages)}">
 		<c:if test="${ selectStart != null || selectEnd != null || selectCategory != null}"><c:out value="全件 の投稿が見つかりました" /></c:if>
 	</c:if>
-	<c:if test="${ fn:length(messages) == fn:length(allMessages) && selectStart == null && selectEnd == null && selectCategory == null}"><c:out value="全件表示しています" /></c:if>
 	<c:if test="${ fn:length(messages) == 0 }">条件に当てはまる投稿が見つかりませんでした</c:if>
 
 
@@ -125,60 +131,7 @@ function CountDownLength( idn, str, mnum ) {
 						</p>
 					</div>
 					<br /><br />
-					投稿者：<span class="name"><c:out value="「${message.name}」" /></span><br />
-
-					所属：投稿時（現在）「
-					<c:forEach items="${branches}" var="branch">
-						<c:if test="${message.branchId == branch.id}">
-							<c:out value="${branch.name }" />
-						</c:if>
-					</c:forEach>
-
-					<c:forEach items="${positions}" var="position">
-						<c:if test="${message.positionId == position.id}">
-							<c:out value="${position.name }" />
-						</c:if>
-					</c:forEach>
-
-					(
-					<c:forEach items="${users}" var="user">
-						<c:if test="${message.userId == user.id }">
-							<c:forEach items="${branches}" var="branch">
-								<c:if test="${user.branchId == branch.id}">
-									<c:if test="${user.branchId != message.branchId}">
-										<c:out value="${branch.name }" />
-									</c:if>
-									<c:if test="${user.branchId == message.branchId && user.positionId != message.positionId}">
-										<c:out value="${branch.name }" />
-									</c:if>
-								</c:if>
-							</c:forEach>
-						</c:if>
-
-
-						<c:if test="${message.userId == user.id }">
-							<c:forEach items="${positions}" var="position">
-								<c:if test="${user.positionId == position.id}">
-									<c:if test="${user.positionId != message.positionId}">
-										<c:out value="${position.name }" />
-									</c:if>
-									<c:if test="${user.positionId == message.positionId && user.branchId != message.branchId}">
-										<c:out value="${position.name }" />
-									</c:if>
-								</c:if>
-							</c:forEach>
-						</c:if>
-
-
-
-						<c:if test="${message.userId == user.id }">
-							<c:if test="${user.branchId == message.branchId && user.positionId == message.positionId}">
-								<c:out value="同様" />
-							</c:if>
-						</c:if>
-					</c:forEach>
-					)」
-
+					投稿者：<span class="name"><c:out value="${message.name}　" /></span>
 
 
 				<fmt:formatDate value="${message.insertDate}" pattern="yyyy/MM/dd HH:mm:ss" />
@@ -200,7 +153,7 @@ function CountDownLength( idn, str, mnum ) {
 
 
 			<form action="comment" method="post">
-				<textarea name="comment" style="width:60%;height:90px;resize:none" maxlength='500' onkeyup="CountDownLength( 'cdlength' , value , 500 );" ></textarea><br />
+				<textarea name="comment" style="width:50%;height:90px;resize:none" maxlength='500' onkeyup="CountDownLength( 'cdlength' , value , 500 );" ></textarea><br />
 				<input type="submit" value="コメント" onClick="disabledButton(this)">
 				<div id="cdlength" style="display: inline" >残り500文字</div><br />
 				<input type="hidden" name="messageId" value='${message.id}'><br />
@@ -217,59 +170,7 @@ function CountDownLength( idn, str, mnum ) {
 							</c:forEach>
 						</p>
 					</div>
-					投稿者：<c:out value="${comment.name}" /><br />
-
-										所属：投稿時（現在）「
-					<c:forEach items="${branches}" var="branch">
-						<c:if test="${comment.branchId == branch.id}">
-							<c:out value="${branch.name }" />
-						</c:if>
-					</c:forEach>
-
-					<c:forEach items="${positions}" var="position">
-						<c:if test="${comment.positionId == position.id}">
-							<c:out value="${position.name }" />
-						</c:if>
-					</c:forEach>
-
-					(
-					<c:forEach items="${users}" var="user">
-						<c:if test="${comment.userId == user.id }">
-							<c:forEach items="${branches}" var="branch">
-								<c:if test="${user.branchId == branch.id}">
-									<c:if test="${user.branchId != comment.branchId}">
-										<c:out value="${branch.name }" />
-									</c:if>
-									<c:if test="${user.branchId == comment.branchId && user.positionId != comment.positionId}">
-										<c:out value="${branch.name }" />
-									</c:if>
-								</c:if>
-							</c:forEach>
-						</c:if>
-
-
-						<c:if test="${comment.userId == user.id }">
-							<c:forEach items="${positions}" var="position">
-								<c:if test="${user.positionId == position.id}">
-									<c:if test="${user.positionId != comment.positionId}">
-										<c:out value="${position.name }" />
-									</c:if>
-									<c:if test="${user.positionId == comment.positionId && user.branchId != comment.branchId}">
-										<c:out value="${position.name }" />
-									</c:if>
-								</c:if>
-							</c:forEach>
-						</c:if>
-
-
-
-						<c:if test="${comment.userId == user.id }">
-							<c:if test="${user.branchId == comment.branchId && user.positionId == comment.positionId}">
-								<c:out value="同様" />
-							</c:if>
-						</c:if>
-					</c:forEach>
-					)」
+					投稿者：<c:out value="${comment.name}　　　　　　　　" />
 
 					<fmt:formatDate value="${comment.insertDate}" pattern="yyyy/MM/dd HH:mm:ss" />
 

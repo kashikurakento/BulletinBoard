@@ -54,6 +54,7 @@ public class HomeServlet extends HttpServlet {
 
 		if(StringUtils.isBlank(request.getParameter("startDate")) == false){
 			startDate = request.getParameter("startDate");
+			request.setAttribute("startDate", startDate);
 			try {
 				Date formatDate = sdf.parse(startDate);
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy年MM月dd日");
@@ -64,6 +65,7 @@ public class HomeServlet extends HttpServlet {
 		}
 		if(StringUtils.isBlank(request.getParameter("endDate")) == false){
 			endDate = request.getParameter("endDate");
+			request.setAttribute("endDate", endDate);
 			try {
 				Date formatDate = sdf.parse(endDate);
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy年MM月dd日");

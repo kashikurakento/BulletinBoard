@@ -1,6 +1,8 @@
 package bulletinboard.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -23,6 +25,9 @@ public class LoginFilter implements Filter {
 
 		if(!((HttpServletRequest) request).getServletPath().equals("/login")){
 			if (session.getAttribute("loginUser") == null) {
+				List<String> messages = new ArrayList<String>();
+				messages.add("ログインしてください");
+				session.setAttribute("errorMessages", messages);
 				((HttpServletResponse) response).sendRedirect("login");
 				return;
 			}

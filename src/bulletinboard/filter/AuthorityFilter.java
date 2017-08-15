@@ -2,6 +2,8 @@
 package bulletinboard.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -30,6 +32,9 @@ public class AuthorityFilter implements Filter {
 
 		if(!(newLoginUser.getPositionId().equals(1))){
 			((HttpServletResponse) response).sendRedirect("./");
+			List<String> messages = new ArrayList<String>();
+			messages.add("このURLにアクセスする権限がありません");
+			session.setAttribute("errorMessages", messages);
 				return;
 		}
 		chain.doFilter(request, response);

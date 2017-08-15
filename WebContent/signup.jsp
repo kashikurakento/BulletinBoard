@@ -49,7 +49,7 @@ function check(){
 			<label for="checkPassword">パスワード(再入力)</label>
 			<input name="checkPassword" type="password" maxlength='20'/><br />
 
-			<label for="name">名称</label>
+			<label for="name">名前</label>
 			<input name="name" value="${user.name}" /><h5 style="display: inline">（10文字以内で入力してください）</h5><br />
 
 			<label for="branchId">支店</label>

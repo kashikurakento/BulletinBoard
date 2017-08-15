@@ -43,10 +43,20 @@ function working(){
 	<form method="POST" onClick="return check()" style="display: inline">
 		<a href="logout" style="float:right;">ログアウト</a>
 	</form>
+
+	<c:if test="${ not empty errorMessage }">
+		<div style="color:red" class="errorMessage">
+			<ul>
+				<li><c:out  value="${erroeMessage}" />
+			</ul>
+		</div>
+		<c:remove var="errorMessages" scope="session" />
+	</c:if>
+
 	<h2>ユーザー管理</h2>
 	<table border=1>
 			<tr>
-				<th>名称</th>
+				<th>名前</th>
 				<th>ログインID</th>
 				<th>支店</th>
 				<th>部署/役職</th>

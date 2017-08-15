@@ -46,9 +46,18 @@ public class SignUpServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-
 		User user = new User();
-		user.setLoginId(request.getParameter("loginId"));
+
+		UserService userService = new UserService();
+		User existingUser = userService.getUser( (String)request.getParameter("loginId"));
+		if (existingUser == null ) {
+			user.setLoginId(request.getParameter("loginId"));
+		} else {
+			messages.add("入力したログインIDは既に使用されています");
+			session.setAttribute("errorMessages", messages);
+		}
+
+
 		user.setPassword(request.getParameter("password"));
 		user.setName(request.getParameter("name"));
 		if(request.getParameter("branch").matches("^[0-9]+$")){
@@ -63,6 +72,7 @@ public class SignUpServlet extends HttpServlet {
 
 			response.sendRedirect("manage");
 		} else {
+			user.setLoginId(request.getParameter("loginId"));
 			session.setAttribute("errorMessages", messages);
 			request.setAttribute("user", user);
 
@@ -110,16 +120,16 @@ public class SignUpServlet extends HttpServlet {
 		if(password.matches("^[0-9a-zA-Z]+$") && 6 <= password.length()  && password.length() <= 20){
 			if(StringUtils.isBlank(password) == false && StringUtils.isBlank(checkPassword) == false){
 				if(!password.equals(checkPassword)){
-					messages.add("再入力したパスワードが間違っています");
+					messages.add("パスワードが一致していません");
 				}
 			}
 		}
 		if (StringUtils.isEmpty(name) == true) {
-			messages.add("名称を入力してください");
+			messages.add("名前を入力してください");
 		}
 		if(StringUtils.isEmpty(name) == false){
 			if (name.length() > 10) {
-				messages.add("名称は10文字以内で入力してください");
+				messages.add("名前は10文字以内で入力してください");
 			}
 		}
 		if (branch.equals("noSelectBranch")) {

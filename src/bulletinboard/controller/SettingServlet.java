@@ -140,15 +140,15 @@ public class SettingServlet extends HttpServlet {
 //		}
 		if(password.matches("^[0-9a-zA-Z]+$") && 6 <= password.length() && password.length() <= 20){
 			if(!password.equals(checkPassword)){
-				messages.add("再入力したパスワードが間違っています");
+				messages.add("パスワードが一致していません");
 			}
 		}
 		if (StringUtils.isBlank(name) == true) {
-			messages.add("名称を入力してください");
+			messages.add("名前を入力してください");
 		}
 		if(StringUtils.isBlank(name) == false){
 			if (name.length() > 10) {
-				messages.add("名称は10文字以内で入力してください");
+				messages.add("名前は10文字以内で入力してください");
 			}
 		}
 		if(Integer.parseInt(branch) == 1 && !mainOffice.contains(position)){
