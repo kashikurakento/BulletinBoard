@@ -25,7 +25,7 @@
 		<form action="login" method="post">
 
 			<label for="loginId">ログインID</label>
-			<input name="loginId" /><br />
+			<input name="loginId"  value="${loginId }"/><br />
 
 			<label for="password">パスワード</label>
 			<input name="password"		type="password" /><br />

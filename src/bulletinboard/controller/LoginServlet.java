@@ -41,9 +41,10 @@ public class LoginServlet extends HttpServlet {
 				response.sendRedirect("./");
 		} else {
 			List<String> messages = new ArrayList<String>();
-			messages.add("ログインに失敗しました。");
+			request.setAttribute("loginId", loginId);
+			messages.add("ログインに失敗しました");
 			session.setAttribute("errorMessages", messages);
-			response.sendRedirect("login");
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 	}
 

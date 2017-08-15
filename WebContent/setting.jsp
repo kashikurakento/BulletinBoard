@@ -6,9 +6,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript">
+function check(){
+	if(window.confirm('本当にログアウトしますか？')){ // 確認ダイアログを表示
+		return true; // 「OK」時は送信を実行
+	}
+	else{ // 「キャンセル」時の処理
+		return false; // 送信を中止
+	}
+}
+</script>
 <title>ユーザー編集</title>
 </head>
 <body>
+	<form method="POST" onClick="return check()" style="display: inline">
+		<a href="logout" style="float:right;">ログアウト</a>
+	</form>
 	<h2><c:out value="ユーザー編集" /></h2>
 	<div class="main-contents">
 		<c:if test="${ not empty errorMessages }">

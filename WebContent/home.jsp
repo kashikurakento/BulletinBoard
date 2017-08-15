@@ -54,7 +54,7 @@ function CountDownLength( idn, str, mnum ) {
 				<c:out value="${loginUser.name }" />
 				がログイン中です
 			</div>
-			<h2>わったい菜掲示板</h2>
+			<h2>社内BBS</h2>
 
 
 		</div>

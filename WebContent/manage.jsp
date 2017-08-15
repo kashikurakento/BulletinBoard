@@ -7,6 +7,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript">
+function check(){
+	if(window.confirm('本当にログアウトしますか？')){ // 確認ダイアログを表示
+		return true; // 「OK」時は送信を実行
+	}
+	else{ // 「キャンセル」時の処理
+		return false; // 送信を中止
+	}
+}
+</script>
 <title>ユーザー管理</title>
 <script type="text/javascript">
 function stopped(){
@@ -30,6 +40,9 @@ function working(){
 <body>
 	<a href="./">ホーム</a>
 	<a href="signup">ユーザー新規登録</a>
+	<form method="POST" onClick="return check()" style="display: inline">
+		<a href="logout" style="float:right;">ログアウト</a>
+	</form>
 	<h2>ユーザー管理</h2>
 	<table border=1>
 			<tr>
