@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <script type="text/javascript">
 function check(){
 	if(window.confirm('本当にログアウトしますか？')){ // 確認ダイアログを表示

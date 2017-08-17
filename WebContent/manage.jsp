@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <script type="text/javascript">
 function check(){
 	if(window.confirm('本当にログアウトしますか？')){ // 確認ダイアログを表示
@@ -44,14 +45,17 @@ function working(){
 		<a href="logout" style="float:right;">ログアウト</a>
 	</form>
 
-	<c:if test="${ not empty errorMessage }">
-		<div style="color:red" class="errorMessage">
-			<ul>
-				<li><c:out  value="${erroeMessage}" />
-			</ul>
-		</div>
+	<c:if test="${ not empty errorMessages }">
+			<div style="color:red" class="errorMessages">
+				<ul>
+					<c:forEach items="${errorMessages}" var="message">
+						<li><c:out  value="${message}" />
+					</c:forEach>
+				</ul>
+			</div>
 		<c:remove var="errorMessages" scope="session" />
 	</c:if>
+
 
 	<h2>ユーザー管理</h2>
 	<table border=1>
@@ -79,7 +83,6 @@ function working(){
 					<c:forEach items="${positions}" var="position">
 						<c:if test="${user.positionId == position.id}">
 							<td><c:out value="${position.name }" /></td>
-
 						</c:if>
 					</c:forEach>
 
@@ -90,20 +93,24 @@ function working(){
 					</td>
 
 					<td>
-					<div align="center">
-						<form  action="is_working" method="post" onClick="return stopped()" style="display: inline">
-							<c:if test="${user.isWorking == 1 }">
-								<button style="color:red" type="submit" name="isWorking" value="0">停止</button>
-								<input type="hidden" name="id" value="${user.id}">
+						<div align="center">
+							<c:if test="${loginUser.id != user.id }" >
+								<form  action="is_working" method="post" onClick="return stopped()" style="display: inline">
+									<c:if test="${user.isWorking == 1 }">
+										<button style="color:red" type="submit" name="isWorking" value="0">停止</button>
+										<input type="hidden" name="id" value="${user.id}">
+									</c:if>
+								</form>
+								<form  action="is_working" method="post" onClick="return working()" style="display: inline">
+									<c:if test="${user.isWorking == 0 }">
+										<button style="color:blue" type="submit" name="isWorking" value="1">復活</button>
+										<input type="hidden" name="id" value="${user.id}">
+									</c:if>
+								</form>
 							</c:if>
-						</form>
-						<form  action="is_working" method="post" onClick="return working()" style="display: inline">
-							<c:if test="${user.isWorking == 0 }">
-								<button style="color:blue" type="submit" name="isWorking" value="1">復活</button>
-								<input type="hidden" name="id" value="${user.id}">
+							<c:if test="${loginUser.id == user.id }" ><font size="2">ログイン中</font>
 							</c:if>
-						</form>
-					</div>
+						</div>
 					</td>
 				</tr>
 			</c:forEach>

@@ -20,10 +20,11 @@ public class LoginFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
+		System.out.println(((HttpServletRequest) request).getServletPath());
 
 		HttpSession session = ((HttpServletRequest) request).getSession();
 
-		if(!((HttpServletRequest) request).getServletPath().equals("/login")){
+		if(!((HttpServletRequest) request).getServletPath().equals("/login") && !((HttpServletRequest) request).getServletPath().equals("/css/login")){
 			if (session.getAttribute("loginUser") == null) {
 				List<String> messages = new ArrayList<String>();
 				messages.add("ログインしてください");

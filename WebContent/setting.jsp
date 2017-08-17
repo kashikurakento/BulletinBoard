@@ -37,60 +37,75 @@ function check(){
 
 		<form action="setting" method="post">
 
+			<label	for="name">名前</label>
+			<input name="name" value="${editUser.name}" maxlength='10' /><h5 style="display: inline">（10文字以内で入力してください）</h5><br /><br />
+
 			<label for="loginId">ログインID</label>
-			<input name="loginId"value="${editUser.loginId}" maxlength='20'/><h5 style="display: inline">（半角英数字6文字以上20文字以下で入力してください）</h5><br />
+			<input name="loginId" value="${editUser.loginId}" maxlength='20'/><h5 style="display: inline">（半角英数字6文字以上20文字以下で入力してください）</h5><br /><br />
 
 			<label	for="password">パスワード</label>
-			<input name="password" 	type="password" maxlength='20'/><h5 style="display: inline">（記号または半角英数字6文字以上20文字以下で入力してください）</h5><br />
+			<input name="password" 	type="password" maxlength='20'/><h5 style="display: inline">（記号または半角文字6文字以上20文字以下で入力してください）</h5><br />
 
 			<label for="checkPassword">パスワード(再入力)</label>
-			<input name="checkPassword" type="password" maxlength='20'/> <br />
+			<input name="checkPassword" type="password" maxlength='20'/> <br /><br />
 
-			<label	for="name">名前</label>
-			<input name="name" value="${editUser.name}" maxlength='10' /><h5 style="display: inline">（10文字以内で入力してください）</h5><br />
+			<c:if test="${loginUser.id != editUser.id }">
+				<c:forEach items="${branches}" var="branch" >
+					<c:if test="${branchId == branch.id}">
+						現在の支店:<c:out value="${branch.name}" />
+					</c:if>
+				</c:forEach>
+				<br />
 
-			<c:forEach items="${branches}" var="branch" >
-				<c:if test="${branchId == branch.id}">
-					現在の支店:<c:out value="${branch.name}" />
-				</c:if>
-			</c:forEach>
-			<br />
+				変更後の支店:
+				<SELECT name="branch">
+					<c:forEach items="${branches}" var="branch" >
+						<c:if test="${editUser.branchId == branch.id}">
+							<option value="${branch.id}" selected>${branch.name}</option>
+						</c:if>
+						<c:if test="${editUser.branchId != branch.id}">
+							<option value="${branch.id}">${branch.name}</option>
+						</c:if>
+					</c:forEach>
+				</SELECT>
+				<br /><br />
 
-			変更後の支店:
-			<SELECT name="branch">
+
+				<c:forEach items="${positions}" var="position" >
+					<c:if test="${positionId == position.id}">
+						現在の部署/役職:<c:out value="${position.name}" />
+					</c:if>
+				</c:forEach>
+				<br />
+				変更後の部署/役職:
+				<SELECT name="position">
+					<c:forEach items="${positions}" var="position" >
+						<c:if test="${editUser.positionId == position.id}">
+							<option value="${position.id}" selected>${position.name}</option>
+						</c:if>
+						<c:if test="${editUser.positionId != position.id}">
+							<option value="${position.id}">${position.name}</option>
+						</c:if>
+					</c:forEach>
+				</SELECT> <br />
+			</c:if>
+			<c:if test="${loginUser.id == editUser.id }">
 				<c:forEach items="${branches}" var="branch" >
 					<c:if test="${editUser.branchId == branch.id}">
-						<option value="${branch.id}" selected>${branch.name}</option>
-					</c:if>
-					<c:if test="${editUser.branchId != branch.id}">
-						<option value="${branch.id}">${branch.name}</option>
+						<input type="hidden" name="branch" value="${branch.id}" >
 					</c:if>
 				</c:forEach>
-			</SELECT>
-			<br />
-
-			<c:forEach items="${positions}" var="position" >
-				<c:if test="${positionId == position.id}">
-					現在の部署/役職:<c:out value="${position.name}" />
-				</c:if>
-			</c:forEach>
-			<br />
-			変更後の部署/役職:
-			<SELECT name="position">
 				<c:forEach items="${positions}" var="position" >
 					<c:if test="${editUser.positionId == position.id}">
-						<option value="${position.id}" selected>${position.name}</option>
-					</c:if>
-					<c:if test="${editUser.positionId != position.id}">
-						<option value="${position.id}">${position.name}</option>
+						<input name="position" type="hidden" value="${position.id}" >
 					</c:if>
 				</c:forEach>
-			</SELECT> <br />
+			</c:if>
 
-			<input type="submit" value="入力した内容で編集" /><br /><br />
+
+			<button type="submit" name="id" value="${editUser.id }">入力した内容で編集</button><br /><br />
 			<a href="manage">編集せずに戻る</a>
 		</form>
-
 	</div>
 </body>
 </html>

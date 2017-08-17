@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="css/signupStyle.css" rel="stylesheet" type="text/css">
 <script>
 function disabledButton(btn){
 	btn.disabled=true;
@@ -20,13 +21,13 @@ function check(){
 	}
 }
 </script>
-<title>ユーザー登録</title>
+<title>ユーザー新規登録</title>
 </head>
 <body>
 	<form method="POST" onClick="return check()" style="display: inline">
 		<a href="logout" style="float:right;">ログアウト</a>
 	</form><br />
-	<h2><c:out value="ユーザー登録" /></h2>
+	<h2><c:out value="ユーザー新規登録" /></h2>
 	<div class="main-contents">
 		<c:if test="${ not empty errorMessages }">
 			<div style="color:red" class="errorMessages">
@@ -39,30 +40,35 @@ function check(){
 			<c:remove var="errorMessages" scope="session" />
 		</c:if>
 
+
+
+
+
 		<form action="signup" method="post">
-			<label for="loginId">ログインID</label>
-			<input name="loginId"value="${user.loginId}" maxlength='20' /><h5 style="display: inline">（半角英数字6文字以上20文字以下で入力してください）</h5><br />
-
-			<label for="password">パスワード</label>
-			<input name="password" type="password" maxlength='20'/><h5 style="display: inline">（記号または半角英数字6文字以上20文字以下で入力してください）</h5><br />
-
-			<label for="checkPassword">パスワード(再入力)</label>
-			<input name="checkPassword" type="password" maxlength='20'/><br />
 
 			<label for="name">名前</label>
-			<input name="name" value="${user.name}" /><h5 style="display: inline">（10文字以内で入力してください）</h5><br />
+			<input name="name" value="${user.name}" /><h5 style="display: inline">（10文字以内で入力してください）</h5><br /><br />
+
+			<label for="loginId">ログインID</label>
+			<input name="loginId"value="${user.loginId}" maxlength='20' /><h5 style="display: inline">（半角英数字6文字以上20文字以下で入力してください）</h5><br /><br />
+
+			<label for="password">パスワード</label>
+			<input name="password" type="password" maxlength='20'/><h5 style="display: inline">（記号または半角文字6文字以上20文字以下で入力してください）</h5><br />
+
+			<label for="checkPassword">パスワード(再入力)</label>
+			<input name="checkPassword" type="password" maxlength='20'/><br /><br />
 
 			<label for="branchId">支店</label>
 			<SELECT name="branch">
 				<c:if test="${user.branchId == null}">
-					<option value="noSelectBranch" selected="selected">選択してください</option>
+					<option value="" selected>選択してください</option>
 				</c:if>
 				<c:if test="${user.branchId != null}">
-					<option value="noSelectBranch">選択してください</option>
+					<option value="">選択してください</option>
 				</c:if>
 				<c:forEach items="${branches}" var="branch" >
 					<c:if test="${user.branchId == branch.id}">
-						<option value="${branch.id}" selected="selected">${branch.name}</option>
+						<option value="${branch.id}" selected>${branch.name}</option>
 					</c:if>
 					<c:if test="${user.branchId != branch.id}">
 						<option value="${branch.id}">${branch.name}</option>
@@ -73,14 +79,14 @@ function check(){
 			<label for="positionId">部署/役職</label>
 			<SELECT name="position">
 				<c:if test="${user.branchId == null}">
-					<option value="noSelectPosition" selected="selected">選択してください</option>
+					<option value="" selected>選択してください</option>
 				</c:if>
 				<c:if test="${user.branchId != null}">
-					<option value="noSelectPosition">選択してください</option>
+					<option value="">選択してください</option>
 				</c:if>
 				<c:forEach items="${positions}" var="position" >
 					<c:if test="${user.positionId == position.id}">
-						<option value="${position.id}" selected="selected">${position.name}</option>
+						<option value="${position.id}" selected>${position.name}</option>
 					</c:if>
 					<c:if test="${user.positionId != position.id}">
 						<option value="${position.id}">${position.name}</option>
@@ -92,5 +98,6 @@ function check(){
 			<a href="manage">登録せずに戻る</a>
 		</form>
 	</div>
+
 </body>
 </html>

@@ -2,15 +2,15 @@
 	pageEncoding="UTF-8"%>
 <%@page isELIgnored="false"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>ログイン</title>
 </head>
 <body>
-	<div class="main-contents">
-		<h2>ログイン</h2>
+	<div id="form">
+		<p class="formTitle">ログイン</p>
 		<c:if test="${ not empty errorMessages }">
 			<div style="color:red" class="errorMessages">
 				<ul>
@@ -25,12 +25,12 @@
 		<form action="login" method="post">
 
 			<label for="loginId">ログインID</label>
-			<input name="loginId"  value="${loginId }"/><br />
+			<p class="loginId"><input name="loginId"  value="${loginId }"/></p><br />
 
 			<label for="password">パスワード</label>
-			<input name="password"		type="password" /><br />
+			<p class="password"><input name="password" type="password" /></p><br />
 
-			<input type="submit" value="ログイン" /><br />
+			<p class="submit"><input type="submit" value="ログイン" /></p><br />
 
 		</form>
 	</div>
