@@ -84,6 +84,15 @@ public class SignUpServlet extends HttpServlet {
 		String[] sub = {"3", "4"};
 		List<String> subOffice = Arrays.asList(sub);
 
+
+		if (StringUtils.isEmpty(name) == true) {
+			messages.add("名前を入力してください");
+		}
+		if(StringUtils.isEmpty(name) == false){
+			if (name.length() > 10) {
+				messages.add("名前は10文字以内で入力してください");
+			}
+		}
 		if (StringUtils.isEmpty(loginId) == true) {
 			messages.add("ログインIDを入力してください");
 		}
@@ -110,14 +119,7 @@ public class SignUpServlet extends HttpServlet {
 				}
 			}
 		}
-		if (StringUtils.isEmpty(name) == true) {
-			messages.add("名前を入力してください");
-		}
-		if(StringUtils.isEmpty(name) == false){
-			if (name.length() > 10) {
-				messages.add("名前は10文字以内で入力してください");
-			}
-		}
+
 		if (StringUtils.isBlank(request.getParameter("branch")) == true) {
 				messages.add("支店を選択してください");
 		}

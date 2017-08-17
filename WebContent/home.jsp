@@ -80,9 +80,9 @@ function CountDownLength( idn, str, mnum ) {
 			日付指定
 			<input type="date" name="startDate" min="2017-08-01" max="${date }" value="${startDate }" /> から
 			<input type="date" name="endDate" min="2017-08-01" max="${date }" value="${endDate }" />まで
-			<button type="submit">絞込み</button>
+			<p class="button"><button type="submit">絞込み</button></p>
 		</form>
-		<form action="./" style="display: inline"><button type="submit">全件表示</button></form><br />
+		<form action="./" style="display: inline"><p class="button"><button type="submit">全件表示</button></p></form><br />
 
 
 

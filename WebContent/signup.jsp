@@ -24,80 +24,109 @@ function check(){
 <title>ユーザー新規登録</title>
 </head>
 <body>
-	<form method="POST" onClick="return check()" style="display: inline">
-		<a href="logout" style="float:right;">ログアウト</a>
-	</form><br />
-	<h2><c:out value="ユーザー新規登録" /></h2>
+	<div class="link">
+		<a href="manage" style="float:left;">登録せずに戻る</a>
+		<form  method="POST" onClick="return check()" style="display: inline">
+			<a href="logout" style="float:right;">ログアウト</a>
+		</form><br />
+	</div>
+	<div >
+	<h3><c:out value="ユーザー新規登録" /></h3>
 	<div class="main-contents">
 		<c:if test="${ not empty errorMessages }">
 			<div style="color:red" class="errorMessages">
-				<ul>
+				<p class="errorMessage">
 					<c:forEach items="${errorMessages}" var="message">
-						<li><c:out value="${message}" />
+						<c:out value="${message}" /><br />
 					</c:forEach>
-				</ul>
+				</p>
 			</div>
 			<c:remove var="errorMessages" scope="session" />
 		</c:if>
 
 
+		<form method="post" action="signup" class="contact">
 
+		<p>入力が完了したら「入力内容を登録」ボタンをクリックしてください。</p>
 
+		<table >
+			<tbody>
+				<tr>
+					<th><label for="name">名前</label></th>
+					<td class="required"><img src="css/required1.gif" alt="必須" width="26" height="15"></td>
+					<td><input type="text" name="name" value="${user.name}" maxlength='10' id="name" size="10"><br>
+					<span class="supplement">（10文字以内で入力してください）</span></td>
+				</tr>
+				<tr>
+					<th><label for="loginId">ログインID</label></th>
+					<td class="required"><img src="css/required1.gif" alt="必須" width="26" height="15"></td>
+					<td><input type="text" name="loginId" value="${user.loginId}" maxlength='20' id="loginId" size="20"><br>
+					<span class="supplement">（半角英数字6文字以上20文字以下で入力してください）</span></td>
+				</tr>
+				<tr>
+					<th><label for="password">パスワード</label></th>
+					<td class="required"><img src="css/required1.gif" alt="必須" width="26" height="15"></td>
+					<td><input name="password" type="password" maxlength='20' id="password" size="20"><br>
+					<span class="supplement">（記号または半角文字6文字以上20文字以下で入力してください）</span></td>
+				</tr>
+				<tr>
+					<th><label for="checkPassword">確認用パスワード</label></th>
+					<td class="required"><img src="css/required1.gif" alt="必須" width="26" height="15"></td>
+					<td><input name="checkPassword" type="password" maxlength='20' id="checkPassword" size="20"><br>
+					<span class="supplement">（パスワードを再度入力してください）</span></td>
+				</tr>
+				<tr>
+					<th ><label for="branch">支店</label></th>
+					<td class="required"><img src="css/required1.gif" alt="必須" width="26" height="15"></td>
+					<td>
+						<select name="branch" id="branch">
+							<c:if test="${user.branchId == null}">
+								<option value="" selected>選択してください</option>
+							</c:if>
+							<c:if test="${user.branchId != null}">
+								<option value="">選択してください</option>
+							</c:if>
+							<c:forEach items="${branches}" var="branch" >
+								<c:if test="${user.branchId == branch.id}">
+									<option value="${branch.id}" selected>${branch.name}</option>
+								</c:if>
+								<c:if test="${user.branchId != branch.id}">
+									<option value="${branch.id}">${branch.name}</option>
+								</c:if>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th ><label for="position">部署/役職</label></th>
+					<td class="required"><img src="css/required1.gif" alt="必須" width="26" height="15"></td>
+					<td>
+						<select name="position" id="position">
+							<c:if test="${user.branchId == null}">
+								<option value="" selected>選択してください</option>
+							</c:if>
+							<c:if test="${user.branchId != null}">
+								<option value="">選択してください</option>
+							</c:if>
+							<c:forEach items="${positions}" var="position" >
+								<c:if test="${user.positionId == position.id}">
+									<option value="${position.id}" selected>${position.name}</option>
+								</c:if>
+								<c:if test="${user.positionId != position.id}">
+									<option value="${position.id}">${position.name}</option>
+								</c:if>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 
-		<form action="signup" method="post">
+<p class="button"><input type="submit" value="入力した内容で登録" onClick="disabledButton(this)"></p><br /><br />
 
-			<label for="name">名前</label>
-			<input name="name" value="${user.name}" /><h5 style="display: inline">（10文字以内で入力してください）</h5><br /><br />
+</form>
 
-			<label for="loginId">ログインID</label>
-			<input name="loginId"value="${user.loginId}" maxlength='20' /><h5 style="display: inline">（半角英数字6文字以上20文字以下で入力してください）</h5><br /><br />
-
-			<label for="password">パスワード</label>
-			<input name="password" type="password" maxlength='20'/><h5 style="display: inline">（記号または半角文字6文字以上20文字以下で入力してください）</h5><br />
-
-			<label for="checkPassword">パスワード(再入力)</label>
-			<input name="checkPassword" type="password" maxlength='20'/><br /><br />
-
-			<label for="branchId">支店</label>
-			<SELECT name="branch">
-				<c:if test="${user.branchId == null}">
-					<option value="" selected>選択してください</option>
-				</c:if>
-				<c:if test="${user.branchId != null}">
-					<option value="">選択してください</option>
-				</c:if>
-				<c:forEach items="${branches}" var="branch" >
-					<c:if test="${user.branchId == branch.id}">
-						<option value="${branch.id}" selected>${branch.name}</option>
-					</c:if>
-					<c:if test="${user.branchId != branch.id}">
-						<option value="${branch.id}">${branch.name}</option>
-					</c:if>
-				</c:forEach>
-			</SELECT>
-
-			<label for="positionId">部署/役職</label>
-			<SELECT name="position">
-				<c:if test="${user.branchId == null}">
-					<option value="" selected>選択してください</option>
-				</c:if>
-				<c:if test="${user.branchId != null}">
-					<option value="">選択してください</option>
-				</c:if>
-				<c:forEach items="${positions}" var="position" >
-					<c:if test="${user.positionId == position.id}">
-						<option value="${position.id}" selected>${position.name}</option>
-					</c:if>
-					<c:if test="${user.positionId != position.id}">
-						<option value="${position.id}">${position.name}</option>
-					</c:if>
-				</c:forEach>
-			</SELECT> <br />
-
-			<input type="submit" value="入力した内容で登録" onClick="disabledButton(this)" /> <br /><br />
-			<a href="manage">登録せずに戻る</a>
-		</form>
 	</div>
-
+</div>
 </body>
 </html>
