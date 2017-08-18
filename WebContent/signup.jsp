@@ -25,13 +25,13 @@ function check(){
 </head>
 <body>
 	<div class="link">
-		<a href="manage" style="float:left;">登録せずに戻る</a>
+		<a href="manage" class="manageLink">ユーザー管理に戻る</a>
 		<form  method="POST" onClick="return check()" style="display: inline">
-			<a href="logout" style="float:right;">ログアウト</a>
+			<a href="logout" style="float:right;" class="logoutLink">ログアウト</a>
 		</form><br />
 	</div>
-	<div >
-	<h3><c:out value="ユーザー新規登録" /></h3>
+	<div class="signupForm">
+	<h2><c:out value="ユーザー新規登録" /></h2>
 	<div class="main-contents">
 		<c:if test="${ not empty errorMessages }">
 			<div style="color:red" class="errorMessages">
@@ -54,7 +54,7 @@ function check(){
 				<tr>
 					<th><label for="name">名前</label></th>
 					<td class="required"><img src="css/required1.gif" alt="必須" width="26" height="15"></td>
-					<td><input type="text" name="name" value="${user.name}" maxlength='10' id="name" size="10"><br>
+					<td><input type="text" name="name" value="${user.name}" maxlength='10' id="name" size="15"><br>
 					<span class="supplement">（10文字以内で入力してください）</span></td>
 				</tr>
 				<tr>

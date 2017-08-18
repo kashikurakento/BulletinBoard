@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<link href="css/manageStyle.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 function check(){
 	if(window.confirm('本当にログアウトしますか？')){ // 確認ダイアログを表示
@@ -39,11 +39,13 @@ function working(){
 </script>
 </head>
 <body>
-	<a href="./">ホーム</a>
-	<a href="signup">ユーザー新規登録</a>
+	<div class="link">
+	<a href="./" class="homeLink">ホーム</a>
+	<a href="signup" class="signupLink">ユーザー新規登録</a>
 	<form method="POST" onClick="return check()" style="display: inline">
-		<a href="logout" style="float:right;">ログアウト</a>
+		<a href="logout" style="float:right;" class="logoutLink">ログアウト</a>
 	</form>
+	</div>
 
 	<c:if test="${ not empty errorMessages }">
 			<div style="color:red" class="errorMessages">
@@ -58,41 +60,41 @@ function working(){
 
 
 	<h2>ユーザー管理</h2>
-	<table border=1>
-			<tr>
-				<th>名前</th>
-				<th>ログインID</th>
-				<th>支店</th>
-				<th>部署/役職</th>
-				<th>編集</th>
-				<th>復活/停止</th>
+	<table  class="manage">
+			<tr class="header">
+				<th class="name">名前</th>
+				<th class="loginId">ログインID</th>
+				<th class="branch">支店</th>
+				<th class="position">部署/役職</th>
+				<th class="setting">編集</th>
+				<th class="isWorking">復活/停止</th>
 			</tr>
 
 			<c:forEach items="${users}" var="user">
-				<tr>
-					<td  width="250"><c:if test="${user.isWorking == 0}"><div style="color:red;display:inline;">【停止中】</div></c:if><c:out value="${user.name }" /></td>
+				<tr class="user">
+					<td class="nameCell" width="250"><c:if test="${user.isWorking == 0}"><div style="color:red;display:inline;">【停止中】</div></c:if><c:out value="${user.name }" /></td>
 
-					<td><c:out value="${user.loginId }" /></td>
+					<td class="loginIdCell"><c:out value="${user.loginId }" /></td>
 
 					<c:forEach items="${branches}" var="branch">
 						<c:if test="${user.branchId == branch.id}">
-							<td><c:out value="${branch.name }" /></td>
+							<td class="branchCell"><c:out value="${branch.name }" /></td>
 						</c:if>
 					</c:forEach>
 
 					<c:forEach items="${positions}" var="position">
 						<c:if test="${user.positionId == position.id}">
-							<td><c:out value="${position.name }" /></td>
+							<td class="positionCell"><c:out value="${position.name }" /></td>
 						</c:if>
 					</c:forEach>
 
-					<td>
+					<td class="settingCell">
 						<form action="setting" method="get">
 							<button type="submit" name="id" value="${user.id}">編集</button>
 						</form>
 					</td>
 
-					<td>
+					<td class="isWorkingCell">
 						<div align="center">
 							<c:if test="${loginUser.id != user.id }" >
 								<form  action="is_working" method="post" onClick="return stopped()" style="display: inline">

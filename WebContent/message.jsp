@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<link href="css/messageStyle.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 function check(){
 	if(window.confirm('本当にログアウトしますか？')){ // 確認ダイアログを表示
@@ -28,22 +28,26 @@ function CountDownLength( idn, str, mnum ) {
 <title>新規投稿</title>
 </head>
 <body>
-	<form method="POST" onClick="return check()" style="display: inline">
-		<a href="logout" style="float:right;">ログアウト</a>
-	</form><br />
+	<div class="link">
+	<a href="./" class="homeLink">ホームへ戻る</a>
+		<form method="POST" onClick="return check()" style="display: inline">
+			<a href="logout" class="logoutLink" style="float:right;">ログアウト</a>
+		</form>
+	</div>
+	<div class="form">
 	<h2>新規投稿</h2>
 	<c:if test="${ not empty errorMessages }">
 		<div style="color:red" class="errorMessages">
 			<ul>
 				<c:forEach items="${errorMessages}" var="message">
-					<li><c:out value="${message}" />
+					<c:out value="${message}" /><br />
 				</c:forEach>
 			</ul>
 		</div>
 		<c:remove var="errorMessages" scope="session" />
 	</c:if>
 
-	<form action="message" method="post">
+	<form action="message" method="post" class="messageForm">
 
 		<label for="title" ><b>件名</b></label><br />
 		<input name="title" value="${message.title }" maxlength='30'/><h5 style="display: inline">（30文字以内で入力してください）</h5><br />
@@ -70,7 +74,8 @@ function CountDownLength( idn, str, mnum ) {
 	</form>
 
 	<div class="header">
-		<a href="./">ホームへ戻る</a>
+
+	</div>
 	</div>
 </body>
 </html>

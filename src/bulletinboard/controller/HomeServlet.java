@@ -90,19 +90,11 @@ public class HomeServlet extends HttpServlet {
 		if(StringUtils.isBlank(request.getParameter("startDate")) == false){
 			try {
 				if(request.getParameter("startDate").matches("\\d{4}-\\d{1,2}-\\d{1,2}")){
-					int diff = sdf.parse(request.getParameter("startDate")).compareTo(sdf.parse("2017-08-01"));
-					if(diff >= 0){
-						startDate = request.getParameter("startDate");
-						Date formatDate = sdf.parse(startDate);
-						SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy年MM月dd日");
-						request.setAttribute("selectStart", (sdf2.format(formatDate)).toString());
-						request.setAttribute("startDate", startDate);
-					} else {
-						errorMessages.add("開始日が不正です");
-						session.setAttribute("errorMessages", errorMessages);
-
-
-					}
+					startDate = request.getParameter("startDate");
+					Date formatDate = sdf.parse(startDate);
+					SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy年MM月dd日");
+					request.setAttribute("selectStart", (sdf2.format(formatDate)).toString());
+					request.setAttribute("startDate", startDate);
 				} else {
 					errorMessages.add("開始日が不正です");
 					session.setAttribute("errorMessages", errorMessages);
