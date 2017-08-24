@@ -27,17 +27,21 @@ public class isWorkingFilter implements Filter {
 		HttpSession session = ((HttpServletRequest) request).getSession();
 		User loginUser = (User) session.getAttribute("loginUser");
 
-		if(!((HttpServletRequest) request).getServletPath().equals("/login")){
+		if(loginUser != null){
+			if(!((HttpServletRequest) request).getServletPath().equals("/login")){
 
-			UserService userService = new UserService();
-			User newLoginUser =userService.getUser(loginUser.getId());
+				UserService userService = new UserService();
+				User newLoginUser =userService.getUser(loginUser.getId());
 
-			if((newLoginUser.getIsWorking().equals(0))){
-				((HttpServletResponse) response).sendRedirect("login");
-				session.invalidate();
-				return;
+				if((newLoginUser.getIsWorking().equals(0))){
+					((HttpServletResponse) response).sendRedirect("login");
+					session.invalidate();
+					return;
+				}
 			}
 		}
+
+
 		chain.doFilter(request, response);
 	}
 

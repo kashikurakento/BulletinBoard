@@ -140,7 +140,14 @@ public class SettingServlet extends HttpServlet {
 		List<String> subOffice = Arrays.asList(sub);
 
 
-
+		if (StringUtils.isBlank(name) == true) {
+			messages.add("名前を入力してください");
+		}
+		if(StringUtils.isBlank(name) == false){
+			if (name.length() > 10) {
+				messages.add("名前は10文字以下で入力してください");
+			}
+		}
 		if (StringUtils.isBlank(loginId) == true) {
 			messages.add("ログインIDを入力してください");
 		}
@@ -164,14 +171,7 @@ public class SettingServlet extends HttpServlet {
 				messages.add("パスワードが一致していません");
 			}
 		}
-		if (StringUtils.isBlank(name) == true) {
-			messages.add("名前を入力してください");
-		}
-		if(StringUtils.isBlank(name) == false){
-			if (name.length() > 10) {
-				messages.add("名前は10文字以内で入力してください");
-			}
-		}
+
 		if(Integer.parseInt(branch) == 1 && !mainOffice.contains(position)){
 			messages.add("支店と部署/役職の組み合わせに誤りがあります");
 		} else if(Integer.parseInt(branch) != 1 && !subOffice.contains(position)){

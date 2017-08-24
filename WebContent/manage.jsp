@@ -47,19 +47,21 @@ function working(){
 	</form>
 	</div>
 
+<div class="header">
+	　ユーザー管理　
+	</div>
+
 	<c:if test="${ not empty errorMessages }">
 			<div style="color:red" class="errorMessages">
 				<ul>
 					<c:forEach items="${errorMessages}" var="message">
-						<li><c:out  value="${message}" />
+						<c:out  value="${message}" />
 					</c:forEach>
 				</ul>
 			</div>
 		<c:remove var="errorMessages" scope="session" />
 	</c:if>
 
-
-	<h2>ユーザー管理</h2>
 	<table  class="manage">
 			<tr class="header">
 				<th class="name">名前</th>
@@ -90,7 +92,7 @@ function working(){
 
 					<td class="settingCell">
 						<form action="setting" method="get">
-							<button type="submit" name="id" value="${user.id}">編集</button>
+							<button type="submit" name="id" value="${user.id}" class="settingButton">編集</button>
 						</form>
 					</td>
 
@@ -99,13 +101,13 @@ function working(){
 							<c:if test="${loginUser.id != user.id }" >
 								<form  action="is_working" method="post" onClick="return stopped()" style="display: inline">
 									<c:if test="${user.isWorking == 1 }">
-										<button style="color:red" type="submit" name="isWorking" value="0">停止</button>
+										<button type="submit" name="isWorking" value="0" class="stop">停止</button>
 										<input type="hidden" name="id" value="${user.id}">
 									</c:if>
 								</form>
 								<form  action="is_working" method="post" onClick="return working()" style="display: inline">
 									<c:if test="${user.isWorking == 0 }">
-										<button style="color:blue" type="submit" name="isWorking" value="1">復活</button>
+										<button type="submit" name="isWorking" value="1" class="work">復活</button>
 										<input type="hidden" name="id" value="${user.id}">
 									</c:if>
 								</form>
@@ -116,6 +118,6 @@ function working(){
 					</td>
 				</tr>
 			</c:forEach>
-	</table>
+	</table><br>
 </body>
 </html>

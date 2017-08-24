@@ -1,0 +1,354 @@
+@CHARSET "UTF-8";
+
+body {
+margin: 0;
+padding: 0;
+background-color: #eaeaea; /* ページの背景色 */
+color: #000000; /* 全体の文字色 */
+font-size: 100%; /* 全体の文字サイズ */
+}
+
+.main {
+	width: 780px;
+	margin: 0 auto;
+	word-wrap: break-word;
+}
+
+.link {
+	background-color: #7cb5ff;
+}
+
+.header {
+	    margin-top: 15px;
+	color: #695656;/*文字色*/
+padding: 0.3em 0;/*上下の余白*/
+border-top: solid 3px #695656;/*上線*/
+border-bottom: solid 3px #695656;/*下線*/
+width: fit-content;
+font-weight: 800;
+    font-size: x-large;
+    margin-left: auto;
+    margin-right: auto;
+}
+.Heading {
+	background-color: #ffffff;
+	text-align: center;
+}
+
+.contributor {
+	display: inline-block;
+	float: right;
+}
+
+.search {
+	display: inline-block;
+	text-align: left;
+}
+.profile{
+	text-align: center;
+}
+
+.button {
+    display: inline-block;
+    padding: 0.3em 1em;
+    text-decoration: none;
+    color: #67c5ff;
+    border: solid 2px #67c5ff;
+    border-radius: 3px;
+    transition: .4s;
+}
+
+.button:hover {
+    background: #67c5ff;
+    color: white;
+}
+.message{
+	background-color: #fff;
+    margin:2em 0;
+    position: relative;
+    padding: 0.25em 1em;
+    border: solid 2px #ffcb8a;
+    border-radius: 3px 0 3px 0;
+}
+.message:before,.message:after
+{
+    content: '';
+    position: absolute;
+    width:10px;
+    height: 10px;
+    border: solid 2px #ffcb8a;
+    border-radius: 50%;
+}
+.message:after {
+    top:-12px;
+    left:-12px;
+}
+.message:before {
+    bottom:-12px;
+    right:-12px;
+}
+.message p {
+    margin: 0;
+    padding: 0;
+}
+.messageText{
+	padding: 0.5em 1em;
+    margin: 2em 0;
+	width:600px;
+	word-wrap: break-word;
+	background: -webkit-repeating-linear-gradient(-45deg, #f0f8ff, #f0f8ff 3px,#e9f4ff 3px, #e9f4ff 7px);
+    background: repeating-linear-gradient(-45deg, #f0f8ff, #f0f8ff 3px,#e9f4ff 3px, #e9f4ff 7px);
+
+}
+.time{
+	display: inline-block;
+	float:right;
+}
+.commentName{
+	display: inline-block;
+	float:right;
+}
+.commentText{
+    padding: 0.5em 1em;
+    margin: 1em 0;
+    width: 600px;
+    background: -webkit-repeating-linear-gradient(-45deg, #fff1f1, #fff1f1 3px,#ffeaea 3px, #ffeaea 7px);
+    background: repeating-linear-gradient(-45deg, #fff1f1, #fff1f1 3px,#ffeaea 3px, #ffeaea 7px);
+
+}
+.commentText p {
+    margin: 0;
+    padding: 0;
+}
+form.delete{
+	display: inline-block;
+	float: right;
+}
+.title {
+	display: inline-block;
+	width: fit-content;
+    position: relative;
+    margin: 0.3em 0;
+    padding: 0.5em 1em;
+    border: solid 3px #62c1ce;
+}
+.title .box-title {
+    position: absolute;
+    display: inline-block;
+    top: -27px;
+    left: -3px;
+    padding: 0 9px;
+    height: 25px;
+    line-height: 25px;
+    vertical-align: middle;
+    font-size: 17px;
+    background: #62c1ce;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 5px 5px 0 0;
+}
+.title p {
+    margin: 0;
+    padding: 0;
+}
+.category {
+	display: inline-block;
+	width: fit-content;
+    position: relative;
+    margin: 0em 0;
+    padding: 0.5em 1em;
+    border: solid 3px #62c1ce;
+}
+.category .box-title {
+    position: absolute;
+    display: inline-block;
+    top: -27px;
+    left: -3px;
+    padding: 0 9px;
+    height: 25px;
+    line-height: 25px;
+    vertical-align: middle;
+    font-size: 17px;
+    background: #62c1ce;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 5px 5px 0 0;
+}
+.category p {
+    margin: 0;
+    padding: 0;
+}
+.commentArea textarea{
+	  border:1px solid #777;
+    padding: 5px;
+    color: #000040;
+
+    /* Webkit */
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(#eee),
+        to(#fff)
+        );
+
+	border-radius: 4px;
+	margin-bottom: 3px;
+}
+.commentArea textarea:focus {
+  outline: 0;
+  border-color: #4f7dec;
+}
+.comment {
+    padding: 0.5em 1em;
+    margin: 1em 0;
+    border: solid 2px #a5a5a5;;/*線*/
+    border-radius: 10px;/*角の丸み*/
+}
+.searchCondition {
+    position: relative;
+    padding:0.25em 1em;
+}
+.searchCondition:before,.searchCondition:after{
+    content:'';
+    width: 20px;
+    height: 30px;
+    position: absolute;
+    display: inline-block;
+}
+.searchCondition:before{
+    border-left: solid 1px #5767bf;
+    border-top: solid 1px #5767bf;
+    top:0;
+    left: 0;
+}
+.searchCondition:after{
+    border-right: solid 1px #5767bf;
+    border-bottom: solid 1px #5767bf;
+    bottom:0;
+    right: 0;
+}
+.searchCondition p {
+    margin: 0;
+    padding: 0;
+}
+select {
+	height: 24px;
+	border-radius: 4px;
+}
+.date{
+	border-radius: 4px;
+}
+.errorMessages{
+	display: inline-block;
+	text-align: left;
+}
+.messageLink,.manageLink,.logoutLink{
+   position: relative;
+   display: inline-block;
+   font-weight: bold;
+   padding: 0.25em 0;
+   text-decoration: none;
+   font-size: large;
+   color: #443737;
+}
+
+.messageLink:before,.manageLink:before,.logoutLink:before{
+   position: absolute;
+   content: '';
+   width: 100%;
+   height: 4px;
+   top:100%;
+   left: 0;
+   border-radius: 3px;
+   background:#fcdb78;
+   transition: .2s;
+}
+
+.messageLink:hover:before,.manageLink:hover:before,.logoutLink:hover:before {
+    top: -webkit-calc(100% - 3px);
+    top: calc(100% - 3px);
+}
+
+.container {
+  margin: 0 auto;
+  text-align: center;
+}
+.container input {
+  display: block;
+}
+.container label {
+  color: #4776AF;
+  cursor: pointer;
+  padding: 0 10px;
+}
+.container label:hover {
+  color: #ccc;
+}
+.container .btm {
+  transition: 0.2s;
+  height: 0;
+  overflow: hidden;
+  padding: 0 10px;
+}
+.container .btn {
+  text-align: left;
+  display: block;
+  width: 80px;
+  margin: 0;
+}
+.container input:checked + .btm {
+  height: auto;
+  padding: 0 10px 10px 10px;
+  background: transparent;
+}
+.commentNumber{
+	background: transparent;
+	text-align:left;
+}
+.commentButton{
+    display: inline-block;
+    padding: 0.4em 1em;
+    text-decoration: none;
+    background: #668ad8;/*ボタン色*/
+    color: #FFF;
+    border-bottom: solid 2px #627295;
+    border-radius: 3px;
+    border-top: hidden;
+    border-left: hidden;
+    border-right: hidden;
+}
+.commentButton:active {/*ボタンを押したとき*/
+    -ms-transform: translateY(2px);
+    -webkit-transform: translateY(2px);
+    transform: translateY(2px);/*下に動く*/
+    border-bottom-color: #fbfbfb;/*線を消す*/
+    outline:none;
+}
+.commentButton:disabled {
+     border:none;
+     background-color:#acacac;
+
+     }
+.deleteButton{
+    display: inline-block;
+    padding: 0.4em 1em;
+    text-decoration: none;
+    background: #ff2f2f;/*ボタン色*/
+    color: #FFF;
+    border-bottom: solid 2px #d90000;
+    border-radius: 3px;
+    border-top: hidden;
+    border-left: hidden;
+    border-right: hidden;
+}
+.deleteButton:active {/*ボタンを押したとき*/
+    -ms-transform: translateY(2px);
+    -webkit-transform: translateY(2px);
+    transform: translateY(2px);/*下に動く*/
+    border-bottom-color: #fbfbfb;/*線を消す*/
+    outline:none;
+}
+.deleteButton:focus{
+    outline:none
+}

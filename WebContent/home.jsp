@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page isELIgnored="false"%>
@@ -33,10 +34,25 @@ function disabledButton(btn){
 function CountDownLength( idn, str, mnum ) {
 	   document.getElementById(idn).innerHTML = "残り" + (mnum - str.length) + "文字";
 	}
+function checkdiv( obj,id ) {
+if( obj.checked ){
+document.getElementById(id).style.display = "block";
+}
+else {
+document.getElementById(id).style.display = "none";
+}
+}
+
+</script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+$(function(){
+	$("#body").fadeOut(800);
+})
 </script>
 <title>ホーム</title>
 </head>
-<body>
+<body >
 	<div class="link">
 		<a href="message" class="messageLink">新規投稿</a>
 		<c:if test="${loginUser.positionId == 1 }">
@@ -47,10 +63,11 @@ function CountDownLength( idn, str, mnum ) {
 		</form>
 	</div>
 
+	<div class="header">　社内掲示板　</div>
 	<div class="Heading">
-	<h2>社内BBS</h2>
+
 		<p class="profile">
-			<c:out value="${loginUser.name }がログイン中です" />
+			<c:out value="${loginUser.name }さんがログイン中です" />
 		</p>
 		<c:if test="${ not empty errorMessages }">
 
@@ -82,8 +99,8 @@ function CountDownLength( idn, str, mnum ) {
 			</SELECT>
 			<br /><br />
 			日付指定
-			<input type="date" name="startDate"  max="${date }" value="${startDate }" /> から
-			<input type="date" name="endDate"  max="${date }" value="${endDate }" />まで
+			<input type="date" name="startDate"  max="${date }" value="${startDate }" class="date"/> から
+			<input type="date" name="endDate"  max="${date }" value="${endDate }" class="date"/>まで
 			<br /><br />
 			<a class="button" href="javascript:document.search.submit()">絞込む</a>
 		</form>
@@ -96,9 +113,8 @@ function CountDownLength( idn, str, mnum ) {
 		<c:if test="${ selectStart != null || selectEnd != null || selectCategory != null}">
 		<p class="searchCondition">
 		<c:forEach items="${categories}" var="category">
-			<c:if test="${ selectCategory == category.category}">&nbsp;&nbsp;<c:out value="　カテゴリー：${selectCategory }"></c:out></c:if>
+			<c:if test="${ selectCategory == category.category}">&nbsp;&nbsp;<c:out value="　カテゴリー：${selectCategory }"></c:out><br /></c:if>
 		</c:forEach>
-		<c:if test="${ selectStart != null || selectEnd != null && selectCategory != null}"><br /></c:if>
 		<c:if test="${ selectStart != null || selectEnd != null}">&nbsp;&nbsp;　日付：</c:if>
 		<c:if test="${ selectStart != null}"><c:out value="${selectStart }から"></c:out></c:if>
 		<c:if test="${ selectEnd != null}"><c:out value="${selectEnd }まで"></c:out></c:if>
@@ -110,7 +126,7 @@ function CountDownLength( idn, str, mnum ) {
 		<c:if test="${ fn:length(messages) == fn:length(allMessages)}">
 		<c:if test="${ selectStart != null || selectEnd != null || selectCategory != null}"><c:out value="全件 の投稿が見つかりました" /></c:if>
 		</c:if>
-		<c:if test="${ fn:length(messages) == 0 }"><br />条件に当てはまる投稿が見つかりませんでした</c:if>
+		<c:if test="${ fn:length(messages) == 0 }">条件に当てはまる投稿が見つかりませんでした</c:if>
 		<br /><br />
 		</div>
 
@@ -127,6 +143,7 @@ function CountDownLength( idn, str, mnum ) {
     				<p class="box-title">件名</p>
   					<p><c:out value="　${message.title}　" /></p>
 				</div>
+				<c:if test="${fn:length(message.title) > 13}"><br><br></c:if>
 				<div class="category" >
     				<p class="box-title" >カテゴリー</p>
   					<p>&nbsp;<c:out value="　　${message.category}　　" />&nbsp;</p>
@@ -149,15 +166,15 @@ function CountDownLength( idn, str, mnum ) {
 				<form action="messageDelete" onClick="return Delete()" style="display: inline" method="post" class="delete" name="delete">
 					<c:choose>
 						<c:when test="${ loginUser.positionId == 2 }">
-							<a class="deleteButton" href="javascript:document.delete.submit()"><font color="#FFFFFF">投稿削除</font></a>
+							<button type="submit" name="messageId" value="${message.id}" class="deleteButton">投稿削除</button>
 							<input type="hidden" name="messageId" value="${message.id}">
 						</c:when>
 						<c:when test="${ loginUser.branchId == message.branchId && loginUser.positionId == 3 }">
-							<a class="deleteButton" href="javascript:document.delete.submit()"><font color="#FFFFFF">投稿削除</font></a>
+							<button type="submit" name="messageId" value="${message.id}" class="deleteButton">投稿削除</button>
 							<input type="hidden" name="messageId" value="${message.id}">
 						</c:when>
 						<c:when test="${ loginUser.id == message.userId }">
-							<a class="deleteButton" href="javascript:document.delete.submit()"><font color="#FFFFFF">投稿削除</font></a>
+							<button type="submit" name="messageId" value="${message.id}" class="deleteButton">投稿削除</button>
 							<input type="hidden" name="messageId" value="${message.id}">
 						</c:when>
 					</c:choose>
@@ -167,13 +184,12 @@ function CountDownLength( idn, str, mnum ) {
 			<br />
 			<br />
 			<br />
-			<form method="POST" action="comment" name="comment" onSubmit="return checkk()">
+			<form method="POST" action="comment" name="comment" onSubmit="return checkk()" class="commentArea">
 				<textarea name="comment" style="width:80%;height:90px;resize:none" maxlength='500' onkeyup="CountDownLength( 'cdlength' , value , 500 );" ></textarea><br />
-				<input type="submit" value="コメント" onClick="disabledButton(this)" >
+				<input type="submit" value="コメント" onClick="disabledButton(this)" class="commentButton">
 				<div id="cdlength" style="display: inline" >残り500文字</div><br /><br />
 				<input type="hidden" name="messageId" value='${message.id}'>
 			</form>
-
 
 
 			<c:forEach items="${comments}" var="comment">
@@ -186,7 +202,7 @@ function CountDownLength( idn, str, mnum ) {
 							<c:out value="${text}" /><br />
 						</c:forEach>
 						</p>
-					<br />
+
 					</div>
 					<p class="commentName">
 					投稿者：<c:out value="${comment.name}　" />
@@ -195,15 +211,15 @@ function CountDownLength( idn, str, mnum ) {
 					<form action="commentDelete" onClick="return Delete()" style="display: inline" method="post" class="delete">
 						<c:choose>
 							<c:when test="${ loginUser.positionId == 2 }">
-								<a class="deleteButton" href="javascript:document.delete.submit()"><font color="#FFFFFF">コメント削除</font></a>
+							<button type="submit" name="commentId" value="${comment.id}" class="deleteButton">コメント削除</button>
 								<input type="hidden" name="messageId" value="${message.id}">
 							</c:when>
 							<c:when test="${ loginUser.branchId == comment.branchId && loginUser.positionId == 3 }">
-								<a class="deleteButton" href="javascript:document.delete.submit()"><font color="#FFFFFF">コメント削除</font></a>
+								<button type="submit" name="commentId" value="${comment.id}" class="deleteButton">コメント削除</button>
 								<input type="hidden" name="messageId" value="${message.id}">
 							</c:when>
 							<c:when test="${ loginUser.id == comment.userId }">
-								<a class="deleteButton" href="javascript:document.delete.submit()"><font color="#FFFFFF">コメント削除</font></a>
+								<button type="submit" name="commentId" value="${comment.id}" class="deleteButton">コメント削除</button>
 								<input type="hidden" name="messageId" value="${message.id}">
 							</c:when>
 						</c:choose>
@@ -212,8 +228,10 @@ function CountDownLength( idn, str, mnum ) {
 					<br />
 					</div>
 				</c:if>
-
 			</c:forEach>
+
+
+
 			</div>
 		</c:forEach>
 		</div>

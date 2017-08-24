@@ -30,14 +30,18 @@ public class AuthorityFilter implements Filter {
 		UserService userService = new UserService();
 		User newLoginUser =userService.getUser(((User) session.getAttribute("loginUser")).getId());
 
-		if(!(newLoginUser.getPositionId().equals(1))){
-			((HttpServletResponse) response).sendRedirect("./");
-			List<String> messages = new ArrayList<String>();
-			messages.add("このURLにアクセスする権限がありません");
-			session.setAttribute("errorMessages", messages);
+		if(newLoginUser != null){
+			if(!(newLoginUser.getPositionId().equals(1))){
+				((HttpServletResponse) response).sendRedirect("./");
+				List<String> messages = new ArrayList<String>();
+				messages.add("このURLにアクセスする権限がありません");
+				session.setAttribute("errorMessages", messages);
 				return;
+			}
+			chain.doFilter(request, response);
 		}
-		chain.doFilter(request, response);
+
+
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {}

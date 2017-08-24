@@ -29,13 +29,14 @@ function CountDownLength( idn, str, mnum ) {
 </head>
 <body>
 	<div class="link">
-	<a href="./" class="homeLink">ホームへ戻る</a>
+	<a href="./" class="homeLink">ホーム</a>
 		<form method="POST" onClick="return check()" style="display: inline">
 			<a href="logout" class="logoutLink" style="float:right;">ログアウト</a>
 		</form>
 	</div>
-	<div class="form">
-	<h2>新規投稿</h2>
+	<div class="header">　新規投稿　</div>
+
+
 	<c:if test="${ not empty errorMessages }">
 		<div style="color:red" class="errorMessages">
 			<ul>
@@ -46,17 +47,18 @@ function CountDownLength( idn, str, mnum ) {
 		</div>
 		<c:remove var="errorMessages" scope="session" />
 	</c:if>
+	<div class="form">
 
 	<form action="message" method="post" class="messageForm">
+		<br>
 
 		<label for="title" ><b>件名</b></label><br />
-		<input name="title" value="${message.title }" maxlength='30'/><h5 style="display: inline">（30文字以内で入力してください）</h5><br />
-
+		<input name="title" value="${message.title }" maxlength='30' class="text"/><h5 style="display: inline">（30文字以下で入力してください）</h5><br />
+<br>
 		<label for="category"><b>カテゴリーを入力または選択</b></label><br />
-		<input name="category" value="${message.category }" maxlength='10' placeholder="カテゴリーを入力"/><h5 style="display: inline">（10文字以内で入力してください）</h5><br />
-
+		<input name="category" value="${message.category }" maxlength='10' placeholder="カテゴリーを入力" class="text"/><h5 style="display: inline">（10文字以下で入力してください）</h5><br />
 		<label for="selectCategory"></label>
-		<SELECT name="selectCategory">
+		<SELECT name="selectCategory" class="dropdown" style="font-size:13px;">
 			<option value="" selected>カテゴリーを選択</option>
 			<c:forEach items="${categories}" var="category">
 				<c:if test="${selectCategory == category.category }">
@@ -68,9 +70,9 @@ function CountDownLength( idn, str, mnum ) {
 			</c:forEach>
 		</SELECT><br />
 
-		<label for="text"><b>本文</b></label><h5 style="display: inline">（1000文字以内で入力してください）</h5><br />
-		<textarea style="resize:none" name="text" rows="7" cols="100" class="tweet-box" maxlength="1000" onkeyup="CountDownLength( 'cdlength' , value , 1000 );">${message.text }</textarea><br />
-		<input type="submit" value="投稿する" onClick="disabledButton(this)"><div id="cdlength" style="display: inline">残り1000文字</div><br /><br /><br />
+		<label for="text"><b>本文</b></label><h5 style="display: inline">（1000文字以下で入力してください）</h5><br />
+		<textarea style="resize:none" name="text" rows="7" cols="100" class="tweet-box" maxlength="1000" onkeyup="CountDownLength( 'cdlength' , value , 1000 );" class="text">${message.text }</textarea><br />
+		<input type="submit" value="投稿する" onClick="disabledButton(this)" class="message"><div id="cdlength" style="display: inline">残り1000文字</div><br /><br /><br />
 	</form>
 
 	<div class="header">

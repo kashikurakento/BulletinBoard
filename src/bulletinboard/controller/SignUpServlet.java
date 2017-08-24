@@ -90,7 +90,7 @@ public class SignUpServlet extends HttpServlet {
 		}
 		if(StringUtils.isEmpty(name) == false){
 			if (name.length() > 10) {
-				messages.add("名前は10文字以内で入力してください");
+				messages.add("名前は10文字以下で入力してください");
 			}
 		}
 		if (StringUtils.isEmpty(loginId) == true) {

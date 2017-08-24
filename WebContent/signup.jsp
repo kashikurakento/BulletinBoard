@@ -25,13 +25,15 @@ function check(){
 </head>
 <body>
 	<div class="link">
-		<a href="manage" class="manageLink">ユーザー管理に戻る</a>
+		<a href="./" class="homeLink">ホーム</a>
+		<a href="manage" class="manageLink">ユーザー管理</a>
 		<form  method="POST" onClick="return check()" style="display: inline">
 			<a href="logout" style="float:right;" class="logoutLink">ログアウト</a>
 		</form><br />
 	</div>
-	<div class="signupForm">
-	<h2><c:out value="ユーザー新規登録" /></h2>
+	<div class="header"><c:out value="　ユーザー新規登録　" /></div>
+	<div class="signup">
+
 	<div class="main-contents">
 		<c:if test="${ not empty errorMessages }">
 			<div style="color:red" class="errorMessages">
@@ -45,86 +47,60 @@ function check(){
 		</c:if>
 
 
-		<form method="post" action="signup" class="contact">
+		<form action="signup" method="post" class="signupForm" >
+		<br>
 
-		<p>入力が完了したら「入力内容を登録」ボタンをクリックしてください。</p>
+			<label for="name"><b>名前</b></label><br>
+			<input name="name" value="${user.name}" maxlength='10' class="text"/><h5 style="display: inline">（10文字以下で入力してください）</h5><br /><br />
 
-		<table >
-			<tbody>
-				<tr>
-					<th><label for="name">名前</label></th>
-					<td class="required"><img src="css/required1.gif" alt="必須" width="26" height="15"></td>
-					<td><input type="text" name="name" value="${user.name}" maxlength='10' id="name" size="15"><br>
-					<span class="supplement">（10文字以内で入力してください）</span></td>
-				</tr>
-				<tr>
-					<th><label for="loginId">ログインID</label></th>
-					<td class="required"><img src="css/required1.gif" alt="必須" width="26" height="15"></td>
-					<td><input type="text" name="loginId" value="${user.loginId}" maxlength='20' id="loginId" size="20"><br>
-					<span class="supplement">（半角英数字6文字以上20文字以下で入力してください）</span></td>
-				</tr>
-				<tr>
-					<th><label for="password">パスワード</label></th>
-					<td class="required"><img src="css/required1.gif" alt="必須" width="26" height="15"></td>
-					<td><input name="password" type="password" maxlength='20' id="password" size="20"><br>
-					<span class="supplement">（記号または半角文字6文字以上20文字以下で入力してください）</span></td>
-				</tr>
-				<tr>
-					<th><label for="checkPassword">確認用パスワード</label></th>
-					<td class="required"><img src="css/required1.gif" alt="必須" width="26" height="15"></td>
-					<td><input name="checkPassword" type="password" maxlength='20' id="checkPassword" size="20"><br>
-					<span class="supplement">（パスワードを再度入力してください）</span></td>
-				</tr>
-				<tr>
-					<th ><label for="branch">支店</label></th>
-					<td class="required"><img src="css/required1.gif" alt="必須" width="26" height="15"></td>
-					<td>
-						<select name="branch" id="branch">
-							<c:if test="${user.branchId == null}">
-								<option value="" selected>選択してください</option>
-							</c:if>
-							<c:if test="${user.branchId != null}">
-								<option value="">選択してください</option>
-							</c:if>
-							<c:forEach items="${branches}" var="branch" >
-								<c:if test="${user.branchId == branch.id}">
-									<option value="${branch.id}" selected>${branch.name}</option>
-								</c:if>
-								<c:if test="${user.branchId != branch.id}">
-									<option value="${branch.id}">${branch.name}</option>
-								</c:if>
-							</c:forEach>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th ><label for="position">部署/役職</label></th>
-					<td class="required"><img src="css/required1.gif" alt="必須" width="26" height="15"></td>
-					<td>
-						<select name="position" id="position">
-							<c:if test="${user.branchId == null}">
-								<option value="" selected>選択してください</option>
-							</c:if>
-							<c:if test="${user.branchId != null}">
-								<option value="">選択してください</option>
-							</c:if>
-							<c:forEach items="${positions}" var="position" >
-								<c:if test="${user.positionId == position.id}">
-									<option value="${position.id}" selected>${position.name}</option>
-								</c:if>
-								<c:if test="${user.positionId != position.id}">
-									<option value="${position.id}">${position.name}</option>
-								</c:if>
-							</c:forEach>
-						</select>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+			<label for="loginId"><b>ログインID</b></label><br>
+			<input name="loginId"value="${user.loginId}" maxlength='20' class="text"/><h5 style="display: inline">（半角英数字6文字以上20文字以下で入力してください）</h5><br /><br />
 
-<p class="button"><input type="submit" value="入力した内容で登録" onClick="disabledButton(this)"></p><br /><br />
+			<label for="password"><b>パスワード</b></label><br>
+			<input name="password" type="password" maxlength='20' class="text"/><h5 style="display: inline">（記号または半角文字6文字以上20文字以下で入力してください）</h5><br />
 
-</form>
+			<label for="checkPassword"><b>パスワード（再入力）</b></label><br>
+			<input name="checkPassword" type="password" maxlength='20' class="text"/><br /><br />
+
+
+ 			<label for="branchId"><b>支店</b></label><br>
+ 			<SELECT name="branch" class="dropdown" style="font-size:13px;">
+ 				<c:if test="${user.branchId == null}">
+ 					<option value="" selected>選択してください</option>
+ 				</c:if>
+ 				<c:if test="${user.branchId != null}">
+ 					<option value="">選択してください</option>
+ 				</c:if>
+ 				<c:forEach items="${branches}" var="branch" >
+ 					<c:if test="${user.branchId == branch.id}">
+ 						<option value="${branch.id}" selected>${branch.name}</option>
+ 					</c:if>
+ 					<c:if test="${user.branchId != branch.id}">
+ 						<option value="${branch.id}">${branch.name}</option>
+ 					</c:if>
+ 				</c:forEach>
+ 			</SELECT><br><br>
+
+ 			<label for="positionId"><b>部署/役職</b></label><br>
+ 			<SELECT name="position" class="dropdown" style="font-size:13px;">
+ 				<c:if test="${user.branchId == null}">
+ 					<option value="" selected>選択してください</option>
+ 				</c:if>
+ 				<c:if test="${user.branchId != null}">
+ 					<option value="">選択してください</option>
+ 				</c:if>
+ 				<c:forEach items="${positions}" var="position" >
+ 					<c:if test="${user.positionId == position.id}">
+ 						<option value="${position.id}" selected>${position.name}</option>
+ 					</c:if>
+ 					<c:if test="${user.positionId != position.id}">
+ 						<option value="${position.id}">${position.name}</option>
+ 					</c:if>
+ 				</c:forEach>
+ 			</SELECT> <br /><br>
+
+ 			<input type="submit" value="入力した内容で登録" onClick="disabledButton(this)" class="signupButton"/> <br /><br />
+ 		</form><br><br>
 
 	</div>
 </div>
