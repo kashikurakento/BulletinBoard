@@ -8,6 +8,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="css/messageStyle.css" rel="stylesheet" type="text/css">
+<script src="C:/Users/kashikura.kento/Desktop/jquery-ui-1.12.1.custom/external/jquery/jquery.js">
+<script src="C:/Users/kashikura.kento/Desktop/jquery-ui-1.12.1.custom/jquery-ui.js">
 <script type="text/javascript">
 function check(){
 	if(window.confirm('本当にログアウトしますか？')){ // 確認ダイアログを表示
@@ -24,6 +26,12 @@ function disabledButton(btn){
 function CountDownLength( idn, str, mnum ) {
 	   document.getElementById(idn).innerHTML = "残り" + (mnum - str.length) + "文字";
 	}
+$(function(){
+	var langs = ["ja","en","cn","fn","田中","田口"];
+	$("#langs").autocomplete({
+		source: langs
+	});
+});
 </script>
 <title>新規投稿</title>
 </head>
@@ -56,7 +64,17 @@ function CountDownLength( idn, str, mnum ) {
 		<input name="title" value="${message.title }" maxlength='30' class="text"/><h5 style="display: inline">（30文字以下で入力してください）</h5><br />
 <br>
 		<label for="category"><b>カテゴリーを入力または選択</b></label><br />
-		<input name="category" value="${message.category }" maxlength='10' placeholder="カテゴリーを入力" class="text"/><h5 style="display: inline">（10文字以下で入力してください）</h5><br />
+		<input name="category" value="${message.category }" maxlength='10' placeholder="カテゴリーを入力" class="text" id="langs"/>	<script>
+
+		$(function(){
+	var langs = ["ja","en","cn","fn","田中","田口"];
+	$("#langs").autocomplete({
+		source: langs
+	});
+});
+</script><h5 style="display: inline">
+
+		（10文字以下で入力してください）</h5><br />
 		<label for="selectCategory"></label>
 		<SELECT name="selectCategory" class="dropdown" style="font-size:13px;">
 			<option value="" selected>カテゴリーを選択</option>
